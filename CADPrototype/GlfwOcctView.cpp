@@ -144,8 +144,8 @@ void GlfwOcctView::initWindow(int theWidth, int theHeight, const char* theTitle)
     const bool toAskCoreProfile = true;
     if (toAskCoreProfile)
     {
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 #if defined (__APPLE__)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
