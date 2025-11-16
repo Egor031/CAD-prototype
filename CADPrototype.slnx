@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CADPrototype/CADPrototype.vcxproj" Id="ad3f94ef-c376-4adf-b7bc-6543dcb70e79" />
+</Solution>
