@@ -1,45 +1,76 @@
-# OcctImgui
-OpenCASCADE + GLFW + IMGUI Sample.
+# CAD-prototype: Учебный CAD-редактор на базе OpenCASCADE
 
-![occt imgui](occt-imgui.png "opencascade imgui")
+## Описание проекта
 
-https://tracker.dev.opencascade.org/view.php?id=33485
+**CAD-prototype** — это дипломный проект, представляющий собой учебный прототип системы автоматизированного проектирования (CAD), разработанный с использованием современных технологий 3D-моделирования. Проект создан как демонстрационная реализация базовых функций CAD-системы в рамках выпускной квалификационной работы.
 
-## OpenCASCADE
-  https://dev.opencascade.org/
+## Цель проекта
+
+Основная цель проекта — разработка прототипа CAD-системы, демонстрирующего основные принципы работы с 3D-моделями. Проект направлен на:
+
+* Освоение технологий 3D-моделирования и визуализации
+* Реализацию базовых функций CAD-системы
+* Демонстрацию взаимодействия различных программных компонентов
+* Создание удобного пользовательского интерфейса
+
+## Основополагающие технологии
+
+Проект базируется на форке существующего решения [OcctImgui](https://github.com/eryar/OcctImgui) и использует следующие технологии:
+
+* **OpenCASCADE** — платформа для 3D-моделирования и визуализации
+* **IMGUI** — библиотека для создания графического интерфейса
+* **GLFW** — библиотека для работы с окнами и вводом
+* **Visual Studio** — среда разработки
+
+ ## Подключение библиотек к проекту
+
+Для успешного подключения библиотек к проекту необходимо выполнить следующие шаги:
+
+1. **Скачать необходимые библиотеки:**
+* с официального сайта OpenCASCADE (https://dev.opencascade.org/release) — предварительно скомпилированные бинарные файлы для Windows (Windows package VC++ 2022 64 bit: opencascade-7.9.2-vc14-64.zip);
+* с официального сайта GLFW (https://www.glfw.org/download.html) — предварительно скомпилированные бинарные файлы для Windows (64-bit Windows binaries);
+* с официального репозитория ImGUI (https://github.com/ocornut/imgui) — библиотеку ImGUI.
+
+2. **Настроить пути в Visual Studio:**
+* открыть «Проект — Свойства»;
+* в появившемся окне перейти на вкладку **«С/С++ — Общее — Дополнительные каталоги включаемых файлов»** и добавить пути к папкам:
+  * `Путь\до\библиотеки\opencascade-7.9.2-vc14-64\inc`;
+  * `Путь\до\библиотеки\glfw-3.4.bin.WIN64\include`;
+  * `Путь\до\библиотеки\imgui-1.92.4`;
+  * `Путь\до\библиотеки\imgui-1.92.4\backends`.
+* перейти в **«Компоновщик — Общее — Дополнительные каталоги библиотек»** и добавить пути к папкам:
+  * `Путь\до\библиотеки\opencascade-7.9.2-vc14-64\win64\vc14\lib`;
+  * `Путь\до\библиотеки\glfw-3.4.bin.WIN64\lib-vc2022`.
+* перейти в **«Компоновщик — Ввод — Дополнительные зависимости»** и подключить файлы `.lib`:
+  * от OpenCascade: список библиотек `TKBin.lib;TKBinL.lib;TKBinTObj.lib;TKBinXCAF.lib;TKBO.lib;TKBool.lib;TKBRep.lib;TKCAF.lib;TKCDF.lib;TKD3DHost.lib;TKD3DHostTest.lib;TKDCAF.lib;TKDE.lib;TKDECascade.lib;TKDEGLTF.lib;TKDEIGES.lib;TKDEOBJ.lib;TKDEPLY.lib;TKDESTEP.lib;TKDESTL.lib;TKDEVRML.lib;TKDFBrowser.lib;TKDraw.lib;TKernel.lib;TKExpress.lib;TKFeat.lib;TKFillet.lib;TKG2d.lib;TKG3d.lib;TKGeomAlgo.lib;TKGeomBase.lib;TKHLR.lib;TKIVtk.lib;TKIVtkDraw.lib;TKLCAF.lib;TKMath.lib;TKMesh.lib;TKMeshVS.lib;TKMessageModel.lib;TKMessageView.lib;TKOffset.lib;TKOpenGl.lib;TKOpenGles.lib;TKOpenGlesTest.lib;TKOpenGlTest.lib;TKPrim.lib;TKQADraw.lib;TKRWMesh.lib;TKService.lib;TKShapeView.lib;TKShHealing.lib;TKStd.lib;TKStdL.lib;TKTInspector.lib;TKTInspectorAPI.lib;TKTObj.lib;TKTObjDRAW.lib;TKToolsDraw.lib;TKTopAlgo.lib;TKTopTest.lib;TKTreeModel.lib;TKV3d.lib;TKVCAF.lib;TKView.lib;TKViewerTest.lib;TKVInspector.lib;TKXCAF.lib;TKXDEDRAW.lib;TKXMesh.lib;TKXml.lib;TKXmlL.lib;TKXmlTObj.lib;TKXmlXCAF.lib;TKXSBase.lib;TKXSDRAW.lib;TKXSDRAWDE.lib;TKXSDRAWGLTF.lib;TKXSDRAWIGES.lib;TKXSDRAWOBJ.lib;TKXSDRAWPLY.lib;TKXSDRAWSTEP.lib;TKXSDRAWSTL.lib;TKXSDRAWVRML.lib;`
+  * от GLFW: `glfw3.lib;glfw3_mt.lib;glfw3dll.lib;`
+  * статическая библиотека для работы с OpenGL: `opengl32.lib` (входящая в состав Microsoft SDK).
+
+3. **Добавить файлы в обозреватель решений:**
+* из папки `Путь\до\библиотеки\imgui-1.92.4` добавить следующие файлы:
+  * `imconfig.h`;
+  * `imgui.cpp`;
+  * `imgui.h`;
+  * `imgui_demo.cpp`;
+  * `imgui_draw.cpp`;
+  * `imgui_internal.h`;
+  * `imgui_tables.cpp`;
+  * `imgui_widgets.cpp`;
+  * `imstb_rectpack.h`;
+  * `imstb_textedit.h`;
+  * `imstb_truetype.h`.
+* из папки `Путь\до\библиотеки\imgui-1.92.4\backends` добавить следующие файлы:
+  * `imgui_impl_glfw.cpp`;
+  * `imgui_impl_glfw.h`;
+  * `imgui_impl_opengl3.cpp`;
+  * `imgui_impl_opengl3.h`;
+  * `imgui_impl_opengl3_loader.h`.
+
   
-  https://github.com/Open-Cascade-SAS/OCCT
+  <img width="312" height="525" alt="image" src="https://github.com/user-attachments/assets/542cbf31-ffe3-4585-97a8-bd0368e4b3e8" />
 
-  Open CASCADE Technology (OCCT) a software
-development platform providing services for 3D surface and solid modeling, CAD 
-data exchange, and visualization. Most of OCCT functionality is available in 
-the form of C++ libraries. OCCT can be best applied in development of software 
-dealing with 3D modeling (CAD), manufacturing / measuring (CAM) or numerical 
-simulation (CAE).
-  
-## IMGUI
-  https://github.com/ocornut/imgui
-
-  Dear ImGui is a bloat-free graphical user interface library for C++. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline-enabled application. It is fast, portable, renderer agnostic, and self-contained (no external dependencies).
-
-Dear ImGui is designed to enable fast iterations and to empower programmers to create content creation tools and visualization / debug tools (as opposed to UI for the average end-user). It favors simplicity and productivity toward this goal and lacks certain features commonly found in more high-level libraries.
-
-Dear ImGui is particularly suited to integration in game engines (for tooling), real-time 3D applications, fullscreen applications, embedded applications, or any applications on console platforms where operating system features are non-standard.
-
-## GLFW
-  https://github.com/glfw/glfw
-
-  GLFW is an Open Source, multi-platform library for OpenGL, OpenGL ES and Vulkan application development. It provides a simple, platform-independent API for creating windows, contexts and surfaces, reading input, handling events, etc.
-
-GLFW natively supports Windows, macOS and Linux and other Unix-like systems. On Linux both X11 and Wayland are supported.
-
-GLFW is licensed under the zlib/libpng license.
-
-## Build
-Use Premake5 to build OcctImgui or with CMake:
-
-```
-cmake -DCMAKE_CXX_STANDARD=17 ..
-```
-
-
+4. **Скопировать файлы в папку с .exe файлом проекта:**
+* скопировать содержимое папок `bin` с библиотек:
+  * из `Путь\до\библиотеки\opencascade-7.9.2-vc14-64\win64\vc14\bin`;
+  * из `Путь\до\библиотеки\glfw-3.4.bin.WIN64\lib-vc2022`;
+* вставить все файлы в `Путь\до\проекта\x64\Debug` (или `Release`).
