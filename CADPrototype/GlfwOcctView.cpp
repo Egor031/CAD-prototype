@@ -299,20 +299,20 @@ void GlfwOcctView::renderGui()
     int my_image_width = 0;
     int my_image_height = 0;
     GLuint my_image_texture = 0;
-    bool ret = LoadTextureFromFile("src\\extrude32x32.jpg", &my_image_texture, &my_image_width, &my_image_height);
+    bool ret = LoadTextureFromFile("src\\extrude48x48.jpg", &my_image_texture, &my_image_width, &my_image_height);
     IM_ASSERT(ret);
 
     GLuint my_image_texture2 = 0;
-    bool ret2 = LoadTextureFromFile("src\\create_sketch32x32.jpg", &my_image_texture2, &my_image_width, &my_image_height);
+    bool ret2 = LoadTextureFromFile("src\\create_sketch48x48.jpg", &my_image_texture2, &my_image_width, &my_image_height);
 
     GLuint my_image_texture3 = 0;
-    bool ret3 = LoadTextureFromFile("src\\Make_Box32x32.jpg", &my_image_texture3, &my_image_width, &my_image_height);
+    bool ret3 = LoadTextureFromFile("src\\Make_Box48x48.jpg", &my_image_texture3, &my_image_width, &my_image_height);
 
     GLuint my_image_texture4 = 0;
-    bool ret4 = LoadTextureFromFile("src\\Make_Sph32x32.jpg", &my_image_texture4, &my_image_width, &my_image_height);
+    bool ret4 = LoadTextureFromFile("src\\Make_Sph48x48.jpg", &my_image_texture4, &my_image_width, &my_image_height);
 
     GLuint my_image_texture5 = 0;
-    bool ret5 = LoadTextureFromFile("src\\Make_Cyl32x32.jpg", &my_image_texture5, &my_image_width, &my_image_height);
+    bool ret5 = LoadTextureFromFile("src\\Make_Cyl48x48.jpg", &my_image_texture5, &my_image_width, &my_image_height);
 
     ImGuiIO& aIO = ImGui::GetIO();
 
