@@ -106,6 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>D:\CADEV\opencascade-7.9.2-vc14-64\inc;D:\CADEV\imgui-1.92.4;D:\CADEV\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>D:\CADEV\opencascade-7.9.2-vc14-64\inc;D:\CADEV\imgui-1.92.4;D:\CADEV\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +156,7 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
+    <ClInclude Include="..\..\imgui-1.92.4\stb_image.h" />
     <ClInclude Include="GlfwOcctView.h" />
     <ClInclude Include="GlfwOcctWindow.h" />
   </ItemGroup>

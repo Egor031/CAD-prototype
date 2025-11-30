@@ -83,5 +83,8 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h">
       <Filter>Файлы заголовков\ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\stb_image.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

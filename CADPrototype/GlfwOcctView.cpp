@@ -19,6 +19,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#define _CRT_SECURE_NO_WARNINGS
+#define STB_IMAGE_IMPLEMENTATION
 
 #include "GlfwOcctView.h"
 
@@ -39,6 +41,59 @@
 #include <iostream>
 
 #include <GLFW/glfw3.h>
+
+
+#include "stb_image.h"
+
+// Simple helper function to load an image into a OpenGL texture with common settings
+bool LoadTextureFromMemory(const void* data, size_t data_size, GLuint* out_texture, int* out_width, int* out_height)
+{
+    // Load from file
+    int image_width = 0;
+    int image_height = 0;
+    unsigned char* image_data = stbi_load_from_memory((const unsigned char*)data, (int)data_size, &image_width, &image_height, NULL, 4);
+    if (image_data == NULL)
+        return false;
+
+    // Create a OpenGL texture identifier
+    GLuint image_texture;
+    glGenTextures(1, &image_texture);
+    glBindTexture(GL_TEXTURE_2D, image_texture);
+
+    // Setup filtering parameters for display
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Upload pixels into texture
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+    stbi_image_free(image_data);
+
+    *out_texture = image_texture;
+    *out_width = image_width;
+    *out_height = image_height;
+
+    return true;
+}
+
+// Open and read a file, then forward to LoadTextureFromMemory()
+bool LoadTextureFromFile(const char* file_name, GLuint* out_texture, int* out_width, int* out_height)
+{
+    FILE* f = fopen(file_name, "rb");
+    if (f == NULL)
+        return false;
+    fseek(f, 0, SEEK_END);
+    size_t file_size = (size_t)ftell(f);
+    if (file_size == -1)
+        return false;
+    fseek(f, 0, SEEK_SET);
+    void* file_data = IM_ALLOC(file_size);
+    fread(file_data, 1, file_size, f);
+    fclose(f);
+    bool ret = LoadTextureFromMemory(file_data, file_size, out_texture, out_width, out_height);
+    IM_FREE(file_data);
+    return ret;
+}
 
 namespace
 {
@@ -164,6 +219,9 @@ void GlfwOcctView::initWindow(int theWidth, int theHeight, const char* theTitle)
     glfwSetScrollCallback(myOcctWindow->getGlfwWindow(), GlfwOcctView::onMouseScrollCallback);
     glfwSetMouseButtonCallback(myOcctWindow->getGlfwWindow(), GlfwOcctView::onMouseButtonCallback);
     glfwSetCursorPosCallback(myOcctWindow->getGlfwWindow(), GlfwOcctView::onMouseMoveCallback);
+
+    
+    
 }
 
 // ================================================================
@@ -216,11 +274,46 @@ void GlfwOcctView::initGui()
     ImGui_ImplOpenGL3_Init("#version 460");
 
     // Setup Dear ImGui style.
-    //ImGui::StyleColorsClassic();
+    ImGui::StyleColorsDark();
+}
+
+void testWindow() {
+    int my_image_width2 = 0;
+    int my_image_height2 = 0;
+    GLuint my_image_texture2 = 0;
+    bool ret2 = LoadTextureFromFile("D:\\CADEV\\channels4_profile.jpg", &my_image_texture2, &my_image_width2, &my_image_height2);
+    IM_ASSERT(ret2);
+
+    ImGui::Begin("Hello");
+    ImGui::Text("Hello ImGui!");
+    ImGui::Text("Hello OpenCASCADE!");
+    if (ImGui::ImageButton("press", (ImTextureID)(intptr_t)my_image_texture2, ImVec2(my_image_width2, my_image_height2)))
+        Message::DefaultMessenger()->Send("button press1");
+    ImGui::SameLine();
+    ImGui::Button("Cancel");
+    ImGui::End();
 }
 
 void GlfwOcctView::renderGui()
 {
+    int my_image_width = 0;
+    int my_image_height = 0;
+    GLuint my_image_texture = 0;
+    bool ret = LoadTextureFromFile("src\\extrude32x32.jpg", &my_image_texture, &my_image_width, &my_image_height);
+    IM_ASSERT(ret);
+
+    GLuint my_image_texture2 = 0;
+    bool ret2 = LoadTextureFromFile("src\\create_sketch32x32.jpg", &my_image_texture2, &my_image_width, &my_image_height);
+
+    GLuint my_image_texture3 = 0;
+    bool ret3 = LoadTextureFromFile("src\\Make_Box32x32.jpg", &my_image_texture3, &my_image_width, &my_image_height);
+
+    GLuint my_image_texture4 = 0;
+    bool ret4 = LoadTextureFromFile("src\\Make_Sph32x32.jpg", &my_image_texture4, &my_image_width, &my_image_height);
+
+    GLuint my_image_texture5 = 0;
+    bool ret5 = LoadTextureFromFile("src\\Make_Cyl32x32.jpg", &my_image_texture5, &my_image_width, &my_image_height);
+
     ImGuiIO& aIO = ImGui::GetIO();
 
     ImGui_ImplOpenGL3_NewFrame();
@@ -231,14 +324,30 @@ void GlfwOcctView::renderGui()
     ImGui::ShowDemoWindow();
 
     // Hello IMGUI.
-    ImGui::Begin("Hello");
-    ImGui::Text("Hello ImGui!");
-    ImGui::Text("Hello OpenCASCADE!");
-    ImGui::Button("OK");
+    testWindow();
+    ImGui::Begin("OpenGL Texture Text");
+    
+    if (ImGui::ImageButton("Create Sketch", (ImTextureID)(intptr_t)my_image_texture2, ImVec2(my_image_width, my_image_height)))
+        Message::DefaultMessenger()->Send("button press1"); if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Create Sketch");
     ImGui::SameLine();
-    ImGui::Button("Cancel");
+    if (ImGui::ImageButton("Extrude", (ImTextureID)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height)))
+        Message::DefaultMessenger()->Send("button press2"); if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Extrude");
+    ImGui::SameLine();
+    if (ImGui::ImageButton("MakeBox", (ImTextureID)(intptr_t)my_image_texture3, ImVec2(my_image_width, my_image_height)))
+        Message::DefaultMessenger()->Send("button press3"); if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Create Box");
+    ImGui::SameLine();
+    if (ImGui::ImageButton("MakeSph", (ImTextureID)(intptr_t)my_image_texture4, ImVec2(my_image_width, my_image_height)))
+        Message::DefaultMessenger()->Send("button press4"); if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Create Sphere");
+    ImGui::SameLine();
+    if (ImGui::ImageButton("MakeCyl", (ImTextureID)(intptr_t)my_image_texture5, ImVec2(my_image_width, my_image_height)))
+        Message::DefaultMessenger()->Send("button press5"); if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Create Cylinder");
+    
     ImGui::End();
-
     ImGui::Render();
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -257,7 +366,7 @@ void GlfwOcctView::initDemoScene()
         return;
     }
 
-    myView->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_WIREFRAME);
+    //myView->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_WIREFRAME);
 
     gp_Ax2 anAxis;
     anAxis.SetLocation(gp_Pnt(0.0, 0.0, 0.0));

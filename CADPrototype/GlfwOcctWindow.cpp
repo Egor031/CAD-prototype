@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#include "stb_image.h"
 
 #include "GlfwOcctWindow.h"
 
@@ -55,6 +56,16 @@ GlfwOcctWindow::GlfwOcctWindow(int theWidth, int theHeight, const TCollection_As
         glfwGetWindowSize(myGlfwWindow, &aWidth, &aHeight);
         myXRight = myXLeft + aWidth;
         myYBottom = myYTop + aHeight;
+
+        int a, b;
+        int chanels;
+        //unsigned char* pixels = stbi_load("D:\\CADEV\\extrude32x32.jpg", &a, &b, &chanels, 4);
+
+        //GLFWimage images[1];
+        //images[0].width = a;
+        //images[0].height = b;
+        //images[0].pixels = pixels;
+        //glfwSetWindowIcon(myGlfwWindow, 1, images);
 
 #if !defined(_WIN32) && !defined(__APPLE__)
         myDisplay = new Aspect_DisplayConnection((Aspect_XDisplay*)glfwGetX11Display());
