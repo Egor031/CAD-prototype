@@ -19,12 +19,12 @@
     <Filter Include="Исходные файлы\Platform">
       <UniqueIdentifier>{f057205d-2f5d-4ded-bb6f-a35fc3787695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Viewer">
+      <UniqueIdentifier>{0f2e5c38-551f-4533-bcb5-590a60c6bde8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CADPrototype.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="GlfwOcctView.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="..\..\imgui-1.92.4\imgui.cpp">
@@ -51,11 +51,14 @@
     <ClCompile Include="GlfwOcctWindow.cpp">
       <Filter>Исходные файлы\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="GlfwOcctView.cpp">
+      <Filter>Исходные файлы\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctInputController.cpp">
+      <Filter>Исходные файлы\Viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GlfwOcctView.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
       <Filter>Файлы заголовков\ImGUI</Filter>
     </ClInclude>
@@ -85,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="GlfwOcctWindow.h">
       <Filter>Исходные файлы\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="GlfwOcctView.h">
+      <Filter>Исходные файлы\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctInputController.h">
+      <Filter>Исходные файлы\Viewer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

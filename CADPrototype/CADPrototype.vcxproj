@@ -106,6 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>D:\CADEV\opencascade-7.9.2-vc14-64\inc;D:\CADEV\imgui-1.92.4;D:\CADEV\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>D:\CADEV\opencascade-7.9.2-vc14-64\inc;D:\CADEV\imgui-1.92.4;D:\CADEV\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +145,7 @@
     <ClCompile Include="CADPrototype.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
     <ClCompile Include="GlfwOcctWindow.cpp" />
+    <ClCompile Include="OcctInputController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h" />
@@ -156,6 +159,7 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
     <ClInclude Include="GlfwOcctView.h" />
     <ClInclude Include="GlfwOcctWindow.h" />
+    <ClInclude Include="OcctInputController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
