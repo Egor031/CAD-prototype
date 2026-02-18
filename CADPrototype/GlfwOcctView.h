@@ -8,6 +8,7 @@
 #include <V3d_View.hxx>
 
 #include <memory>
+#include "GuiApp.h"
 
 struct GLFWwindow;
 
@@ -68,6 +69,7 @@ private:
     Handle(AIS_InteractiveContext) myContext;
 
     std::unique_ptr<OcctInputController> myController;
+    GuiApp myGui;
 };
 
 #endif // _GlfwOcctView_Header

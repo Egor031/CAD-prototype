@@ -48,9 +48,11 @@ void GlfwOcctView::run()
     myView->MustBeResized();
     myOcctWindow->Map();
 
-    initGui();
+    myGui.Init(myOcctWindow->getGlfwWindow());
     mainloop();
+    myGui.Shutdown();
     cleanup();
+
 }
 
 void GlfwOcctView::initWindow(int theWidth, int theHeight, const char* theTitle)
@@ -177,25 +179,24 @@ void GlfwOcctView::mainloop()
 {
     while (!glfwWindowShouldClose(myOcctWindow->getGlfwWindow()))
     {
-        if (myController && myController->ToWaitEvents())
-            glfwWaitEvents();
-        else
-            glfwPollEvents();
+        if (myController && myController->ToWaitEvents()) glfwWaitEvents();
+        else glfwPollEvents();
 
         if (!myView.IsNull() && myController)
         {
             myController->Flush();
-            renderGui();
+
+            myGui.BeginFrame();
+            myGui.Draw();
+            myGui.EndFrame();
+
+            glfwSwapBuffers(myOcctWindow->getGlfwWindow());
         }
     }
 }
 
 void GlfwOcctView::cleanup()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-
     if (!myView.IsNull())
     {
         myView->Remove();

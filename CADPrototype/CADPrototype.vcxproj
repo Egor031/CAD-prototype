@@ -143,8 +143,10 @@
     <ClCompile Include="..\..\imgui-1.92.4\imgui_tables.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_widgets.cpp" />
     <ClCompile Include="CADPrototype.cpp" />
+    <ClCompile Include="CadSession.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
     <ClCompile Include="GlfwOcctWindow.cpp" />
+    <ClCompile Include="GuiApp.cpp" />
     <ClCompile Include="OcctInputController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,8 +159,10 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
+    <ClInclude Include="CadSession.h" />
     <ClInclude Include="GlfwOcctView.h" />
     <ClInclude Include="GlfwOcctWindow.h" />
+    <ClInclude Include="GuiApp.h" />
     <ClInclude Include="OcctInputController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
