@@ -37,17 +37,13 @@ void GuiApp::BeginFrame()
 
 void GuiApp::Draw()
 {
-    // Временно оставляем твой GUI
     ImGui::ShowDemoWindow();
 
     ImGui::Begin("Hello");
     ImGui::Text("Hello ImGui!");
-    ImGui::Text("Hello OpenCASCADE!");
-    ImGui::Button("OK");
-    ImGui::SameLine();
-    ImGui::Button("Cancel");
     ImGui::End();
 }
+
 
 void GuiApp::EndFrame()
 {

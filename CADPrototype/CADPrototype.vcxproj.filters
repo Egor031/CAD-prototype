@@ -28,6 +28,15 @@
     <Filter Include="Исходные файлы\CAD">
       <UniqueIdentifier>{3ed79681-0747-48fa-86a0-7a1cfc18ed07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\CAD\Sketch">
+      <UniqueIdentifier>{8c22831a-ea91-474f-b98e-e8756f8bea13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\LLM">
+      <UniqueIdentifier>{965f7a81-0ad9-4bdb-9074-8fc588b05437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\CAD\Solid">
+      <UniqueIdentifier>{3358e974-c117-4257-848b-c1d2032be3ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CADPrototype.cpp">
@@ -67,6 +76,15 @@
       <Filter>Исходные файлы\GUI</Filter>
     </ClCompile>
     <ClCompile Include="CadSession.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
+    <ClCompile Include="History.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
+    <ClCompile Include="Document.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdAddBox.cpp">
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
   </ItemGroup>
@@ -111,6 +129,18 @@
       <Filter>Исходные файлы\GUI</Filter>
     </ClInclude>
     <ClInclude Include="CadSession.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommand.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="Document.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdAddBox.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="History.h">
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
   </ItemGroup>

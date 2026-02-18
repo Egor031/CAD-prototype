@@ -16,6 +16,12 @@
 
 #include <GLFW/glfw3.h>
 
+#include <imgui.h>
+#include "CmdAddBox.h"
+#include <memory>
+#include <utility>
+
+
 GlfwOcctView::GlfwOcctView() {}
 GlfwOcctView::~GlfwOcctView() {}
 
@@ -43,6 +49,8 @@ void GlfwOcctView::run()
     myController = std::make_unique<OcctInputController>(myView, myContext, myOcctWindow);
 
     myCad = std::make_unique<CadSession>(myContext);
+
+    myDocument = std::make_unique<Document>(myContext);
 
     initViewCube();
     initDemoScene();
@@ -162,8 +170,8 @@ void GlfwOcctView::initDemoScene()
 {
     if (!myCad) return;
 
-    myCad->AddBox(50, 50, 50);
-    myCad->AddCone(25, 0, 50);
+    //myCad->AddBox(50, 50, 50);
+    //myCad->AddCone(25, 0, 50);
 }
 
 
@@ -174,16 +182,41 @@ void GlfwOcctView::mainloop()
         if (myController && myController->ToWaitEvents()) glfwWaitEvents();
         else glfwPollEvents();
 
-        if (!myView.IsNull() && myController)
+        myController->Flush();
+
+        myGui.BeginFrame();
+
+        ImGui::Begin("CAD");
+
+        ImGui::Button("Add Box");
+        if (ImGui::IsItemActivated())
         {
-            myController->Flush();
-
-            myGui.BeginFrame();
-            myGui.Draw();
-            myGui.EndFrame();
-
-            glfwSwapBuffers(myOcctWindow->getGlfwWindow());
+            myHistory.Apply(std::make_unique<CmdAddBox>(50, 50, 50), *myDocument);
+            myContext->UpdateCurrentViewer();
         }
+
+        ImGui::Button("Undo");
+        if (ImGui::IsItemActivated())
+        {
+            myHistory.Undo(*myDocument);
+            myContext->UpdateCurrentViewer();
+        }
+
+        ImGui::Button("Redo");
+        if (ImGui::IsItemActivated())
+        {
+            myHistory.Redo(*myDocument);
+            myContext->UpdateCurrentViewer();
+        }
+
+        ImGui::End();
+
+        myGui.Draw();
+        myGui.EndFrame();
+        glfwSwapBuffers(myOcctWindow->getGlfwWindow());
+
+
+        
     }
 }
 
