@@ -42,6 +42,8 @@ void GlfwOcctView::run()
 
     myController = std::make_unique<OcctInputController>(myView, myContext, myOcctWindow);
 
+    myCad = std::make_unique<CadSession>(myContext);
+
     initViewCube();
     initDemoScene();
 
@@ -158,22 +160,12 @@ void GlfwOcctView::renderGui()
 
 void GlfwOcctView::initDemoScene()
 {
-    if (myContext.IsNull() || myView.IsNull())
-    {
-        return;
-    }
+    if (!myCad) return;
 
-    myView->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_WIREFRAME);
-
-    gp_Ax2 anAxis;
-    anAxis.SetLocation(gp_Pnt(0.0, 0.0, 0.0));
-    Handle(AIS_Shape) aBox = new AIS_Shape(BRepPrimAPI_MakeBox(anAxis, 50, 50, 50).Shape());
-    myContext->Display(aBox, AIS_Shaded, 0, false);
-
-    anAxis.SetLocation(gp_Pnt(25.0, 125.0, 0.0));
-    Handle(AIS_Shape) aCone = new AIS_Shape(BRepPrimAPI_MakeCone(anAxis, 25, 0, 50).Shape());
-    myContext->Display(aCone, AIS_Shaded, 0, false);
+    myCad->AddBox(50, 50, 50);
+    myCad->AddCone(25, 0, 50);
 }
+
 
 void GlfwOcctView::mainloop()
 {

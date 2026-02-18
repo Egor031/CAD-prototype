@@ -9,6 +9,9 @@
 
 #include <memory>
 #include "GuiApp.h"
+#include "CadSession.h"
+
+
 
 struct GLFWwindow;
 
@@ -70,6 +73,7 @@ private:
 
     std::unique_ptr<OcctInputController> myController;
     GuiApp myGui;
+    std::unique_ptr<CadSession> myCad;
 };
 
 #endif // _GlfwOcctView_Header
