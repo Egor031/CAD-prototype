@@ -9,11 +9,11 @@
 
 #include <memory>
 #include "GuiApp.h"
-#include "Document.h"
+
 #include "History.h"
 #include "CadPanel.h"   // из GUI/
 
-
+class Document;
 struct GLFWwindow;
 
 // Sample class creating 3D Viewer within GLFW window.

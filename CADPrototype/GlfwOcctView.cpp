@@ -1,10 +1,9 @@
 #include "GlfwOcctView.h"
 
-#include <AIS_Shape.hxx>
+
 #include <AIS_ViewCube.hxx>
 #include <Aspect_DisplayConnection.hxx>
-#include <BRepPrimAPI_MakeBox.hxx>
-#include <BRepPrimAPI_MakeCone.hxx>
+
 #include <Message.hxx>
 #include <Message_Messenger.hxx>
 #include <OpenGl_GraphicDriver.hxx>
@@ -13,11 +12,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include <imgui.h>
-#include "CmdAddBox.h"
-#include <memory>
-#include <utility>
-#include "CommandFactory.h"
+#include "Document.h"
 
 GlfwOcctView::GlfwOcctView() {}
 GlfwOcctView::~GlfwOcctView() {}

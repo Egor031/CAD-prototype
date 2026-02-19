@@ -4,6 +4,8 @@
 
 #include <sstream>
 
+History::~History() = default;
+
 void History::Apply(std::unique_ptr<ICommand> cmd, Document& doc)
 {
     cmd->Apply(doc);

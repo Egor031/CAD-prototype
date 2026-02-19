@@ -4,12 +4,17 @@
 #include <string>
 #include <vector>
 
+#include "ICommand.h"
+
+
 class ICommand;
 class Document;
 
 class History
 {
 public:
+    History() = default;
+    ~History(); // объявили, но не определяем тут
     void Apply(std::unique_ptr<ICommand> cmd, Document& doc);
 
     void Undo(Document& doc);
