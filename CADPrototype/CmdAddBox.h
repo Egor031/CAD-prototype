@@ -10,7 +10,9 @@ public:
 
     void Apply(Document& doc) override;
     void Undo(Document& doc) override;
+
     std::string Name() const override { return "AddBox"; }
+    std::string ToJson() const override;
 
 private:
     double myDx, myDy, myDz;

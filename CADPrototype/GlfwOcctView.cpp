@@ -209,6 +209,24 @@ void GlfwOcctView::mainloop()
             myContext->UpdateCurrentViewer();
         }
 
+        static std::string historyJson;
+        if (ImGui::Button("Refresh History JSON"))
+        {
+            historyJson = myHistory.ExportJson();
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Copy"))
+        {
+            ImGui::SetClipboardText(historyJson.c_str());
+        }
+
+        ImGui::BeginChild("history_box", ImVec2(520, 220), true);
+        ImGui::TextUnformatted(historyJson.c_str());
+        ImGui::EndChild();
+
+
+
         ImGui::End();
 
         myGui.Draw();
