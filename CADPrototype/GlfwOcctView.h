@@ -9,7 +9,6 @@
 
 #include <memory>
 #include "GuiApp.h"
-#include "CadSession.h"
 #include "Document.h"
 #include "History.h"
 
@@ -28,7 +27,7 @@ public:
 private:
     void initWindow(int theWidth, int theHeight, const char* theTitle);
     void initViewer();
-    void initDemoScene();
+    //void initDemoScene();
     void initViewCube();
     void mainloop();
     void cleanup();
@@ -72,7 +71,6 @@ private:
 
     std::unique_ptr<OcctInputController> myController;
     GuiApp myGui;
-    std::unique_ptr<CadSession> myCad;
     std::unique_ptr<Document> myDocument;
     History myHistory;
 };

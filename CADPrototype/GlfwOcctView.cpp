@@ -45,12 +45,12 @@ void GlfwOcctView::run()
 
     myController = std::make_unique<OcctInputController>(myView, myContext, myOcctWindow);
 
-    myCad = std::make_unique<CadSession>(myContext);
+
 
     myDocument = std::make_unique<Document>(myContext);
 
     initViewCube();
-    initDemoScene();
+    //initDemoScene();
 
     myView->MustBeResized();
     myOcctWindow->Map();
@@ -133,13 +133,13 @@ void GlfwOcctView::initViewCube()
 }
 
 
-void GlfwOcctView::initDemoScene()
-{
-    if (!myCad) return;
-
-    //myCad->AddBox(50, 50, 50);
-    //myCad->AddCone(25, 0, 50);
-}
+//void GlfwOcctView::initDemoScene()
+//{
+//    if (!myCad) return;
+//
+//    //myCad->AddBox(50, 50, 50);
+//    //myCad->AddCone(25, 0, 50);
+//}
 
 
 void GlfwOcctView::mainloop()
