@@ -145,6 +145,7 @@
     <ClCompile Include="CADPrototype.cpp" />
     <ClCompile Include="CadSession.cpp" />
     <ClCompile Include="CmdAddBox.cpp" />
+    <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="Document.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
     <ClCompile Include="GlfwOcctWindow.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
     <ClInclude Include="CadSession.h" />
     <ClInclude Include="CmdAddBox.h" />
+    <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="Document.h" />
     <ClInclude Include="GlfwOcctView.h" />
     <ClInclude Include="GlfwOcctWindow.h" />

@@ -87,6 +87,9 @@
     <ClCompile Include="CmdAddBox.cpp">
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
+    <ClCompile Include="CommandFactory.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
@@ -141,6 +144,9 @@
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="History.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandFactory.h">
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
   </ItemGroup>
