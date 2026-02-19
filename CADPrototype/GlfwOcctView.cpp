@@ -1,8 +1,5 @@
 #include "GlfwOcctView.h"
 
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-
 #include <AIS_Shape.hxx>
 #include <AIS_ViewCube.hxx>
 #include <Aspect_DisplayConnection.hxx>
@@ -135,36 +132,6 @@ void GlfwOcctView::initViewCube()
     myContext->Display(aCube, false);
 }
 
-void GlfwOcctView::initGui()
-{
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    ImGui_ImplGlfw_InitForOpenGL(myOcctWindow->getGlfwWindow(), Standard_True);
-    ImGui_ImplOpenGL3_Init("#version 460");
-}
-
-void GlfwOcctView::renderGui()
-{
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    ImGui::ShowDemoWindow();
-
-    ImGui::Begin("Hello");
-    ImGui::Text("Hello ImGui!");
-    ImGui::Text("Hello OpenCASCADE!");
-    ImGui::Button("OK");
-    ImGui::SameLine();
-    ImGui::Button("Cancel");
-    ImGui::End();
-
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    glfwSwapBuffers(myOcctWindow->getGlfwWindow());
-}
 
 void GlfwOcctView::initDemoScene()
 {

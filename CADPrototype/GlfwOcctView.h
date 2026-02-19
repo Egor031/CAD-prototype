@@ -28,8 +28,6 @@ public:
 private:
     void initWindow(int theWidth, int theHeight, const char* theTitle);
     void initViewer();
-    void initGui();
-    void renderGui();
     void initDemoScene();
     void initViewCube();
     void mainloop();
