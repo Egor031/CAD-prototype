@@ -142,6 +142,7 @@
     <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_tables.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_widgets.cpp" />
+    <ClCompile Include="CadPanel.cpp" />
     <ClCompile Include="CADPrototype.cpp" />
     <ClCompile Include="CadSession.cpp" />
     <ClCompile Include="CmdAddBox.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
+    <ClInclude Include="CadPanel.h" />
     <ClInclude Include="CadSession.h" />
     <ClInclude Include="CmdAddBox.h" />
     <ClInclude Include="CommandFactory.h" />

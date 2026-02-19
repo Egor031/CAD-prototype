@@ -146,105 +146,23 @@ void GlfwOcctView::mainloop()
 {
     while (!glfwWindowShouldClose(myOcctWindow->getGlfwWindow()))
     {
-        //if (myController && myController->ToWaitEvents()) glfwWaitEvents();
-        //else glfwPollEvents();
         glfwPollEvents();
 
         myController->Flush();
 
         myGui.BeginFrame();
 
-        ImGui::Begin("CAD");
-
-        ImGui::Button("Add Box");
-        if (ImGui::IsItemActivated())
-        {
-            myHistory.Apply(std::make_unique<CmdAddBox>(50, 50, 50), *myDocument);
-            myContext->UpdateCurrentViewer();
-        }
-
-        ImGui::Button("Undo");
-        if (ImGui::IsItemActivated())
-        {
-            myHistory.Undo(*myDocument);
-            myContext->UpdateCurrentViewer();
-        }
-
-        ImGui::Button("Redo");
-        if (ImGui::IsItemActivated())
-        {
-            myHistory.Redo(*myDocument);
-            myContext->UpdateCurrentViewer();
-        }
-
-        static std::string historyJson;
-        static std::string importJson = R"([
-  {"type":"AddBox","dx":50,"dy":50,"dz":50}
-])";
-        static std::string importError;
-
-        if (ImGui::Button("Refresh History JSON"))
-        {
-            historyJson = myHistory.ExportJson();
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("Copy"))
-        {
-            ImGui::SetClipboardText(historyJson.c_str());
-        }
-
-        ImGui::BeginChild("history_box", ImVec2(520, 220), true);
-        ImGui::TextUnformatted(historyJson.c_str());
-        ImGui::EndChild();
-        ImGui::Separator();
-        ImGui::Text("Import JSON:");
-
-        ImGui::BeginChild("import_box", ImVec2(520, 140), true);
-        ImGui::TextUnformatted(importJson.c_str());
-        ImGui::EndChild();
-
-        // Чтобы можно было редактировать — лучше использовать InputTextMultiline с буфером.
-        // Простой вариант без буфера: сделай отдельное окно-редактор позже.
-        // Сейчас можно просто вставлять через SetClipboardText/ручной источник.
-
-        if (ImGui::Button("Apply JSON"))
-        {
-            importError.clear();
-
-            std::string err;
-            auto cmds = CommandFactory::ParseCommandArray(importJson, err);
-            if (!err.empty())
-            {
-                importError = err;
-            }
-            else
-            {
-                for (auto& c : cmds)
-                {
-                    myHistory.Apply(std::move(c), *myDocument);
-                }
-                myContext->UpdateCurrentViewer();
-            }
-        }
-
-        if (!importError.empty())
-        {
-            ImGui::TextColored(ImVec4(1, 0.4f, 0.4f, 1), "%s", importError.c_str());
-        }
-
-
-
-        ImGui::End();
-
+        const bool changed = myCadPanel.Draw(myHistory, *myDocument);
         myGui.Draw();
         myGui.EndFrame();
+
         glfwSwapBuffers(myOcctWindow->getGlfwWindow());
 
-
-        
+        if (changed)
+            myContext->UpdateCurrentViewer();
     }
 }
+
 
 void GlfwOcctView::cleanup()
 {

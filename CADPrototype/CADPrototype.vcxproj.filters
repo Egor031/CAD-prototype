@@ -90,6 +90,9 @@
     <ClCompile Include="CommandFactory.cpp">
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
+    <ClCompile Include="CadPanel.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="CommandFactory.h">
       <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CadPanel.h">
+      <Filter>Исходные файлы\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

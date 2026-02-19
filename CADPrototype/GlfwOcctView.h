@@ -11,6 +11,7 @@
 #include "GuiApp.h"
 #include "Document.h"
 #include "History.h"
+#include "CadPanel.h"   // из GUI/
 
 
 struct GLFWwindow;
@@ -73,6 +74,7 @@ private:
     GuiApp myGui;
     std::unique_ptr<Document> myDocument;
     History myHistory;
+    CadPanel myCadPanel;
 };
 
 #endif // _GlfwOcctView_Header
