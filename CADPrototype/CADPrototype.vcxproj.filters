@@ -99,6 +99,9 @@
     <ClCompile Include="CmdAddBoxWithId.cpp">
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
+    <ClCompile Include="CmdUpdateBox.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
@@ -165,6 +168,9 @@
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="CmdAddBoxWithId.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdUpdateBox.h">
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
   </ItemGroup>

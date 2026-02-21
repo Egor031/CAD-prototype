@@ -10,11 +10,7 @@ CmdAddBoxWithId::CmdAddBoxWithId(EntityId id, double dx, double dy, double dz)
 
 void CmdAddBoxWithId::Apply(Document& doc)
 {
-    // создаём геометрию
-    myCreated = BRepPrimAPI_MakeBox(myDx, myDy, myDz).Shape();
-    myHasCreated = true;
-
-    myApplied = doc.AddShapeWithId(myId, myCreated);
+    myApplied = doc.AddBoxWithId(myId, myDx, myDy, myDz);
 }
 
 void CmdAddBoxWithId::Undo(Document& doc)

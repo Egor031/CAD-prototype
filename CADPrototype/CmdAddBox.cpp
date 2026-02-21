@@ -10,8 +10,7 @@ CmdAddBox::CmdAddBox(double dx, double dy, double dz)
 
 void CmdAddBox::Apply(Document& doc)
 {
-    TopoDS_Shape shape = BRepPrimAPI_MakeBox(myDx, myDy, myDz).Shape();
-    myCreatedId = doc.AddShape(shape);
+    myCreatedId = doc.AddBox(myDx, myDy, myDz);
 }
 
 void CmdAddBox::Undo(Document& doc)

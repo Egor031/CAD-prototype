@@ -5,6 +5,7 @@
 #include "CmdDeleteEntity.h"
 #include "Document.h"
 #include "CmdAddBoxWithId.h"
+#include "CmdUpdateBox.h"
 
 #include <cctype>
 #include <regex>
@@ -152,6 +153,22 @@ namespace
         return true;
     }
 
+    static bool TryParseUpdateBox(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
+    {
+        uint64_t id = 0;
+        double dx = 0, dy = 0, dz = 0;
+
+        if (!TryGetU64(obj, "id", id) || !TryGetNumber(obj, "dx", dx) || !TryGetNumber(obj, "dy", dy) || !TryGetNumber(obj, "dz", dz))
+        {
+            error = "UpdateBox requires id, dx, dy, dz.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CmdUpdateBox>((EntityId)id, dx, dy, dz);
+        return true;
+    }
+
+
     static bool TryParseDeleteEntity(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         uint64_t id = 0;
@@ -192,9 +209,14 @@ namespace
             return true;
         }
 
+        if (type == "UpdateBox")
+            return TryParseUpdateBox(obj, outCmd, error);
+
         error = "Unsupported command type: " + type;
         return false;
     }
+
+
 
 }
 std::vector<std::unique_ptr<ICommand>> CommandFactory::ParseCommandArray(
@@ -222,4 +244,5 @@ std::vector<std::unique_ptr<ICommand>> CommandFactory::ParseCommandArray(
 
     return result;
 }
+
 

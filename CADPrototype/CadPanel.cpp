@@ -66,6 +66,17 @@ bool CadPanel::Draw(History& history, Document& doc)
         changed = true;
     }
 
+    static std::string stateJson;
+
+    if (ImGui::Button("Refresh State JSON"))
+    {
+        stateJson = doc.ExportStateJson();
+    }
+
+    ImGui::BeginChild("state_box", ImVec2(520, 160), true);
+    ImGui::TextUnformatted(stateJson.c_str());
+    ImGui::EndChild();
+
     // --- History export
     if (ImGui::Button("Refresh History JSON"))
     {

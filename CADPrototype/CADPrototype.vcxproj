@@ -148,6 +148,7 @@
     <ClCompile Include="CmdAddBox.cpp" />
     <ClCompile Include="CmdAddBoxWithId.cpp" />
     <ClCompile Include="CmdDeleteEntity.cpp" />
+    <ClCompile Include="CmdUpdateBox.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="Document.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="CmdAddBox.h" />
     <ClInclude Include="CmdAddBoxWithId.h" />
     <ClInclude Include="CmdDeleteEntity.h" />
+    <ClInclude Include="CmdUpdateBox.h" />
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="Document.h" />
     <ClInclude Include="GlfwOcctView.h" />

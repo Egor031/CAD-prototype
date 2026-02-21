@@ -4,8 +4,9 @@
 #include <AIS_Shape.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include <vector>
 #include <cstdint>
+#include <string>
+#include <vector>
 
 using EntityId = uint64_t;
 
@@ -14,19 +15,31 @@ class Document
 public:
     explicit Document(const Handle(AIS_InteractiveContext)& ctx);
 
+    // Generic shape API (на будущее для напарника)
     EntityId AddShape(const TopoDS_Shape& shape);
+    bool AddShapeWithId(EntityId id, const TopoDS_Shape& shape);
 
-    // Удаление: вернём bool, чтобы команда могла понимать, получилось ли
+    // CAD-level API (то, что нужно LLM/эскизы/параметрика)
+    EntityId AddBox(double dx, double dy, double dz);
+    bool AddBoxWithId(EntityId id, double dx, double dy, double dz);
+
+    bool TryGetBoxParams(EntityId id, double& dx, double& dy, double& dz) const;
+    bool UpdateBox(EntityId id, double dx, double dy, double dz);
+
     bool RemoveShape(EntityId id);
-
     Handle(AIS_Shape) GetShape(EntityId id);
 
     // Для DeleteEntity Undo
     bool TryGetTopoShape(EntityId id, TopoDS_Shape& outShape) const;
-    bool AddShapeWithId(EntityId id, const TopoDS_Shape& shape);
 
     // Для UI/отладки
     std::vector<EntityId> ListIds() const;
+
+    // Снимок текущего состояния (то, что даём LLM)
+    std::string ExportStateJson() const;
+
+    // (опционально) полная очистка сцены
+    void Clear();
 
 private:
     EntityId GenerateId();
@@ -36,21 +49,14 @@ private:
 
     struct ShapeEntry
     {
-        EntityId id;
+        EntityId id = 0;
         Handle(AIS_Shape) ais;
+
+        // metadata for LLM/state
+        std::string kind;   // "Box" / "Generic"
+        double dx = 0, dy = 0, dz = 0; // только для kind=="Box"
     };
 
     std::vector<ShapeEntry> myShapes;
     EntityId myNextId = 1;
-    std::string ExportStateJson() const;
-};
-
-struct ShapeEntry
-{
-    EntityId id;
-    Handle(AIS_Shape) ais;
-
-    // metadata for LLM/state
-    std::string kind;   // "Box"
-    double dx = 0, dy = 0, dz = 0;
 };

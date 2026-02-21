@@ -1,5 +1,8 @@
 #include "Document.h"
 
+#include <sstream>
+#include <BRepPrimAPI_MakeBox.hxx>
+
 #include <iostream>
 
 Document::Document(const Handle(AIS_InteractiveContext)& ctx)
@@ -18,7 +21,12 @@ EntityId Document::AddShape(const TopoDS_Shape& shape)
     myContext->Display(ais, AIS_Shaded, 0, Standard_True);
 
     EntityId id = GenerateId();
-    myShapes.push_back({ id, ais });
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Generic";
+    myShapes.push_back(e);
+
     return id;
 }
 
@@ -62,7 +70,6 @@ bool Document::TryGetTopoShape(EntityId id, TopoDS_Shape& outShape) const
 
 bool Document::AddShapeWithId(EntityId id, const TopoDS_Shape& shape)
 {
-    // не добавляем, если id уже существует
     for (const auto& s : myShapes)
         if (s.id == id)
             return false;
@@ -70,9 +77,12 @@ bool Document::AddShapeWithId(EntityId id, const TopoDS_Shape& shape)
     Handle(AIS_Shape) ais = new AIS_Shape(shape);
     myContext->Display(ais, AIS_Shaded, 0, Standard_True);
 
-    myShapes.push_back({ id, ais });
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Generic";
+    myShapes.push_back(e);
 
-    // поддерживаем генератор id, чтобы не было коллизий
     if (id >= myNextId)
         myNextId = id + 1;
 
@@ -86,4 +96,119 @@ std::vector<EntityId> Document::ListIds() const
     for (const auto& s : myShapes)
         ids.push_back(s.id);
     return ids;
+}
+
+EntityId Document::AddBox(double dx, double dy, double dz)
+{
+    TopoDS_Shape shape = BRepPrimAPI_MakeBox(dx, dy, dz).Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_Shaded, 0, Standard_True);
+
+    EntityId id = GenerateId();
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Box";
+    e.dx = dx; e.dy = dy; e.dz = dz;
+    myShapes.push_back(e);
+
+    return id;
+}
+
+bool Document::AddBoxWithId(EntityId id, double dx, double dy, double dz)
+{
+    for (const auto& s : myShapes)
+        if (s.id == id)
+            return false;
+
+    TopoDS_Shape shape = BRepPrimAPI_MakeBox(dx, dy, dz).Shape();
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_Shaded, 0, Standard_True);
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Box";
+    e.dx = dx; e.dy = dy; e.dz = dz;
+    myShapes.push_back(e);
+
+    if (id >= myNextId)
+        myNextId = id + 1;
+
+    return true;
+}
+
+std::string Document::ExportStateJson() const
+{
+    std::ostringstream ss;
+    ss << "[\n";
+    for (size_t i = 0; i < myShapes.size(); ++i)
+    {
+        const auto& e = myShapes[i];
+        ss << "  {\"id\":" << (unsigned long long)e.id
+            << ",\"kind\":\"" << e.kind << "\"";
+
+        if (e.kind == "Box")
+        {
+            ss << ",\"dx\":" << e.dx
+                << ",\"dy\":" << e.dy
+                << ",\"dz\":" << e.dz;
+        }
+
+        ss << "}";
+        if (i + 1 < myShapes.size()) ss << ",";
+        ss << "\n";
+    }
+    ss << "]";
+    return ss.str();
+}
+
+void Document::Clear()
+{
+    for (auto& e : myShapes)
+    {
+        if (!e.ais.IsNull())
+            myContext->Remove(e.ais, Standard_True);
+    }
+    myShapes.clear();
+}
+
+bool Document::TryGetBoxParams(EntityId id, double& dx, double& dy, double& dz) const
+{
+    for (const auto& e : myShapes)
+    {
+        if (e.id == id && e.kind == "Box")
+        {
+            dx = e.dx; dy = e.dy; dz = e.dz;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Document::UpdateBox(EntityId id, double dx, double dy, double dz)
+{
+    for (auto& e : myShapes)
+    {
+        if (e.id != id)
+            continue;
+
+        if (e.kind != "Box")
+            return false;
+
+        TopoDS_Shape newShape = BRepPrimAPI_MakeBox(dx, dy, dz).Shape();
+
+        // Способ 1 (надёжный и простой): удалить+создать новый AIS_Shape
+        if (!e.ais.IsNull())
+            myContext->Remove(e.ais, Standard_True);
+
+        e.ais = new AIS_Shape(newShape);
+        myContext->Display(e.ais, AIS_Shaded, 0, Standard_True);
+
+        e.dx = dx; e.dy = dy; e.dz = dz;
+        return true;
+    }
+    return false;
 }
