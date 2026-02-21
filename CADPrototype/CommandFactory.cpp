@@ -2,11 +2,15 @@
 
 #include "ICommand.h"
 #include "CmdAddBox.h"
+#include "CmdDeleteEntity.h"
+#include "Document.h"
+#include "CmdAddBoxWithId.h"
 
 #include <cctype>
 #include <regex>
 #include <string>
 #include <vector>
+
 
 namespace
 {
@@ -94,7 +98,6 @@ namespace
                     error = "Unclosed '{' before ']'.";
                     return false;
                 }
-                // конец массива
                 return true;
             }
 
@@ -105,39 +108,41 @@ namespace
         return false;
     }
 
+    static bool ExtractType(const std::string& obj, std::string& outType)
+    {
+        std::smatch m;
+        std::regex typeRe("\"type\"\\s*:\\s*\"([^\"]+)\"");
+        if (!std::regex_search(obj, m, typeRe))
+            return false;
+        outType = m[1].str();
+        return true;
+    }
+
+    static bool TryGetNumber(const std::string& obj, const char* key, double& outVal)
+    {
+        std::regex re(std::string("\"") + key + "\"\\s*:\\s*(-?\\d+(\\.\\d+)?)");
+        std::smatch mm;
+        if (!std::regex_search(obj, mm, re))
+            return false;
+        outVal = std::stod(mm[1].str());
+        return true;
+    }
+
+    static bool TryGetU64(const std::string& obj, const char* key, uint64_t& outVal)
+    {
+        // только неотрицательные (id)
+        std::regex re(std::string("\"") + key + "\"\\s*:\\s*(\\d+)");
+        std::smatch mm;
+        if (!std::regex_search(obj, mm, re))
+            return false;
+        outVal = static_cast<uint64_t>(std::stoull(mm[1].str()));
+        return true;
+    }
+
     static bool TryParseAddBox(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
-        // Минимально: ищем type и dx/dy/dz числа (int/float), порядок ключей может быть любым
-        std::smatch m;
-
-        std::regex typeRe("\"type\"\\s*:\\s*\"([^\"]+)\"");
-
-            if (!std::regex_search(obj, m, typeRe))
-            {
-                error = "Command object has no \"type\" field.";
-                return false;
-            }
-
-        const std::string type = m[1].str();
-        if (type != "AddBox")
-        {
-            error = "Unsupported command type: " + type;
-            return false;
-        }
-
-        auto findNumber = [&](const char* key, double& outVal) -> bool
-            {
-                std::regex re(std::string("\"") + key + "\"\\s*:\\s*(-?\\d+(\\.\\d+)?)");
-
-                std::smatch mm;
-                if (!std::regex_search(obj, mm, re))
-                    return false;
-                outVal = std::stod(mm[1].str());
-                return true;
-            };
-
         double dx = 0, dy = 0, dz = 0;
-        if (!findNumber("dx", dx) || !findNumber("dy", dy) || !findNumber("dz", dz))
+        if (!TryGetNumber(obj, "dx", dx) || !TryGetNumber(obj, "dy", dy) || !TryGetNumber(obj, "dz", dz))
         {
             error = "AddBox requires numeric fields dx, dy, dz.";
             return false;
@@ -147,13 +152,51 @@ namespace
         return true;
     }
 
+    static bool TryParseDeleteEntity(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
+    {
+        uint64_t id = 0;
+        if (!TryGetU64(obj, "id", id))
+        {
+            error = "DeleteEntity requires numeric field id.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CmdDeleteEntity>((EntityId)id);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
-        // Сейчас поддерживаем только AddBox
-        return TryParseAddBox(obj, outCmd, error);
-    }
-}
+        std::string type;
+        if (!ExtractType(obj, type))
+        {
+            error = "Command object has no \"type\" field.";
+            return false;
+        }
 
+        if (type == "AddBox")
+            return TryParseAddBox(obj, outCmd, error);
+
+        if (type == "DeleteEntity")
+            return TryParseDeleteEntity(obj, outCmd, error);
+
+        if (type == "AddBoxWithId")
+        {
+            uint64_t id = 0; double dx = 0, dy = 0, dz = 0;
+            if (!TryGetU64(obj, "id", id) || !TryGetNumber(obj, "dx", dx) || !TryGetNumber(obj, "dy", dy) || !TryGetNumber(obj, "dz", dz))
+            {
+                error = "AddBoxWithId requires id, dx, dy, dz."; return false;
+            }
+
+            outCmd = std::make_unique<CmdAddBoxWithId>((EntityId)id, dx, dy, dz);
+            return true;
+        }
+
+        error = "Unsupported command type: " + type;
+        return false;
+    }
+
+}
 std::vector<std::unique_ptr<ICommand>> CommandFactory::ParseCommandArray(
     const std::string& json,
     std::string& error)
@@ -179,3 +222,4 @@ std::vector<std::unique_ptr<ICommand>> CommandFactory::ParseCommandArray(
 
     return result;
 }
+

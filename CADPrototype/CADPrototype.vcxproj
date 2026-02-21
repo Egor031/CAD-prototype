@@ -146,6 +146,8 @@
     <ClCompile Include="CADPrototype.cpp" />
     <ClCompile Include="CadSession.cpp" />
     <ClCompile Include="CmdAddBox.cpp" />
+    <ClCompile Include="CmdAddBoxWithId.cpp" />
+    <ClCompile Include="CmdDeleteEntity.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="Document.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="CadPanel.h" />
     <ClInclude Include="CadSession.h" />
     <ClInclude Include="CmdAddBox.h" />
+    <ClInclude Include="CmdAddBoxWithId.h" />
+    <ClInclude Include="CmdDeleteEntity.h" />
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="Document.h" />
     <ClInclude Include="GlfwOcctView.h" />
