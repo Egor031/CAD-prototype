@@ -6,15 +6,30 @@
 
 #include <GLFW/glfw3.h>
 
-void GuiApp::Init(GLFWwindow* theWindow)
+void GuiApp::Init(GLFWwindow* window)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    ImGui_ImplGlfw_InitForOpenGL(theWindow, true);
-    ImGui_ImplOpenGL3_Init("#version 460");
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    myInitialized = true;
+    // === ВАЖНО: поддержка кириллицы ===
+    ImFontConfig cfg;
+    cfg.OversampleH = 3;
+    cfg.OversampleV = 3;
+    cfg.PixelSnapH = false;
+
+    io.Fonts->AddFontFromFileTTF(
+        "C:/Windows/Fonts/arial.ttf",
+        18.0f,
+        &cfg,
+        io.Fonts->GetGlyphRangesCyrillic()
+    );
+
+    // Backend
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 void GuiApp::Shutdown()

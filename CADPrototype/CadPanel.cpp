@@ -11,6 +11,24 @@
 #include <utility>
 #include <cstring>
 
+#include "LlmAgent.h"   // из LLM/
+
+void CadPanel::SyncPromptBufFromString()
+{
+    std::memset(myPromptBuf, 0, kPromptBufSize);
+#ifdef _MSC_VER
+    strncpy_s(myPromptBuf, kPromptBufSize, myPrompt.c_str(), kPromptBufSize - 1);
+#else
+    std::strncpy(myPromptBuf, myPrompt.c_str(), kPromptBufSize - 1);
+#endif
+    myPromptBufInited = true;
+}
+
+void CadPanel::SyncPromptStringFromBuf()
+{
+    myPrompt = std::string(myPromptBuf);
+}
+
 void CadPanel::SyncBufFromString()
 {
     // кладём myImportJson в буфер один раз (или когда надо)
@@ -34,6 +52,9 @@ bool CadPanel::Draw(History& history, Document& doc)
 
     if (!myImportBufInited)
         SyncBufFromString();
+
+    if (!myPromptBufInited)
+        SyncPromptBufFromString();
 
     ImGui::Begin("CAD");
 
@@ -133,6 +154,60 @@ bool CadPanel::Draw(History& history, Document& doc)
     if (!myImportError.empty())
     {
         ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "%s", myImportError.c_str());
+    }
+
+    ImGui::Separator();
+    ImGui::Text("LLM (stub):");
+
+    ImGui::InputTextMultiline("##prompt", myPromptBuf, kPromptBufSize, ImVec2(520, 80));
+    SyncPromptStringFromBuf();
+
+    if (ImGui::Button("Run LLM"))
+    {
+        myLlmError.clear();
+
+        const std::string state = doc.ExportStateJson();
+
+        auto res = LlmAgent::RunStub(myPrompt, state);
+        myLlmRequest = res.requestJson;
+        myLlmResponse = res.responseJson;
+
+        // применяем команды
+        std::string err;
+        auto cmds = CommandFactory::ParseCommandArray(myLlmResponse, err);
+        if (!err.empty())
+        {
+            myLlmError = err;
+        }
+        else
+        {
+            for (auto& c : cmds)
+                history.Apply(std::move(c), doc);
+
+            myHistoryJson = history.ExportJson();
+            changed = true;
+        }
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("Copy LLM Response"))
+    {
+        ImGui::SetClipboardText(myLlmResponse.c_str());
+    }
+
+    ImGui::Text("LLM Request:");
+    ImGui::BeginChild("llm_req", ImVec2(520, 80), true);
+    ImGui::TextUnformatted(myLlmRequest.c_str());
+    ImGui::EndChild();
+
+    ImGui::Text("LLM Response (commands_json):");
+    ImGui::BeginChild("llm_resp", ImVec2(520, 80), true);
+    ImGui::TextUnformatted(myLlmResponse.c_str());
+    ImGui::EndChild();
+
+    if (!myLlmError.empty())
+    {
+        ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "LLM Apply Error: %s", myLlmError.c_str());
     }
 
     ImGui::End();

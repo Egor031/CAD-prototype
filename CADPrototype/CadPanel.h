@@ -29,4 +29,16 @@ private:
 
     void SyncBufFromString();
     void SyncStringFromBuf();
+
+    std::string myPrompt = "Сделай кубик побольше"; // или пусто
+    std::string myLlmRequest;
+    std::string myLlmResponse;
+    std::string myLlmError;
+
+    static constexpr size_t kPromptBufSize = 2048;
+    char myPromptBuf[kPromptBufSize] = {};
+    bool myPromptBufInited = false;
+
+    void SyncPromptBufFromString();
+    void SyncPromptStringFromBuf();
 };
