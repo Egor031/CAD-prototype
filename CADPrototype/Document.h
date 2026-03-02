@@ -32,6 +32,13 @@ public:
     // Для DeleteEntity Undo
     bool TryGetTopoShape(EntityId id, TopoDS_Shape& outShape) const;
 
+    // Для корректного Undo после удаления (восстановить метаданные)
+    bool TryGetMeta(EntityId id, std::string& kind, double& dx, double& dy, double& dz) const;
+    bool AddShapeWithIdAndMeta(EntityId id,
+        const TopoDS_Shape& shape,
+        const std::string& kind,
+        double dx, double dy, double dz);
+
     // Для UI/отладки
     std::vector<EntityId> ListIds() const;
 

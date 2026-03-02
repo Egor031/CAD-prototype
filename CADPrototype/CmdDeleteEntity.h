@@ -2,6 +2,7 @@
 
 #include "ICommand.h"
 #include "Document.h"
+#include <string>
 
 #include <TopoDS_Shape.hxx>
 
@@ -16,6 +17,9 @@ public:
     std::string Name() const override { return "DeleteEntity"; }
     std::string ToJson() const override;
 
+    std::string myBackupKind;
+    double myBackupDx = 0, myBackupDy = 0, myBackupDz = 0;
+    bool myHasMeta = false;
 private:
     EntityId myId = 0;
 

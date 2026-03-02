@@ -212,3 +212,42 @@ bool Document::UpdateBox(EntityId id, double dx, double dy, double dz)
     }
     return false;
 }
+
+bool Document::TryGetMeta(EntityId id, std::string& kind, double& dx, double& dy, double& dz) const
+{
+    for (const auto& e : myShapes)
+    {
+        if (e.id == id)
+        {
+            kind = e.kind;
+            dx = e.dx; dy = e.dy; dz = e.dz;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Document::AddShapeWithIdAndMeta(EntityId id,
+    const TopoDS_Shape& shape,
+    const std::string& kind,
+    double dx, double dy, double dz)
+{
+    for (const auto& s : myShapes)
+        if (s.id == id)
+            return false;
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_Shaded, 0, Standard_True);
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = kind;
+    e.dx = dx; e.dy = dy; e.dz = dz;
+    myShapes.push_back(e);
+
+    if (id >= myNextId)
+        myNextId = id + 1;
+
+    return true;
+}
