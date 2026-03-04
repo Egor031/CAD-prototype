@@ -30,10 +30,7 @@ private:
     void SyncBufFromString();
     void SyncStringFromBuf();
 
-    std::string myPrompt = "Сделай кубик побольше"; // или пусто
-    std::string myLlmRequest;
     std::string myLlmResponse;
-    std::string myLlmError;
 
     static constexpr size_t kPromptBufSize = 2048;
     char myPromptBuf[kPromptBufSize] = {};
@@ -41,4 +38,19 @@ private:
 
     void SyncPromptBufFromString();
     void SyncPromptStringFromBuf();
+
+    std::string myPrompt = "Удали первый объект";
+    std::string myEndpoint = "http://localhost:1234";
+    std::string myModel = ""; // позже подставим из /v1/models, пока можно руками
+
+    std::string myLlmRequest;
+    std::string myLlmRaw;
+    std::string myLlmCommands;
+    std::string myLlmError;
+
+    static constexpr size_t kSmallBuf = 1024;
+    char myEndpointBuf[kSmallBuf]{};
+    char myModelBuf[kSmallBuf]{};
+    char myPromptBuf2[2048]{};
+    bool myLlmBufInit = false;
 };

@@ -37,6 +37,9 @@
     <Filter Include="Исходные файлы\CAD\Solid">
       <UniqueIdentifier>{3358e974-c117-4257-848b-c1d2032be3ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\External">
+      <UniqueIdentifier>{e26d8b78-7c2e-4421-b7d0-8df54f6a4d0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CADPrototype.cpp">
@@ -103,6 +106,9 @@
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="LlmAgent.cpp">
+      <Filter>Исходные файлы\LLM</Filter>
+    </ClCompile>
+    <ClCompile Include="LmStudioClient.cpp">
       <Filter>Исходные файлы\LLM</Filter>
     </ClCompile>
   </ItemGroup>
@@ -177,6 +183,15 @@
       <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="LlmAgent.h">
+      <Filter>Исходные файлы\LLM</Filter>
+    </ClInclude>
+    <ClInclude Include="httplib.h">
+      <Filter>Исходные файлы\External</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Исходные файлы\External</Filter>
+    </ClInclude>
+    <ClInclude Include="LmStudioClient.h">
       <Filter>Исходные файлы\LLM</Filter>
     </ClInclude>
   </ItemGroup>

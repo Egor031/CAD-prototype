@@ -168,7 +168,12 @@ bool CadPanel::Draw(History& history, Document& doc)
 
         const std::string state = doc.ExportStateJson();
 
-        auto res = LlmAgent::RunStub(myPrompt, state);
+        auto res = LlmAgent::RunLmStudioChat(
+            myEndpoint,
+            myModel,
+            myPrompt,
+            state
+        );
         myLlmRequest = res.requestJson;
         myLlmResponse = res.responseJson;
 
