@@ -40,31 +40,13 @@
     <Filter Include="Исходные файлы\External">
       <UniqueIdentifier>{e26d8b78-7c2e-4421-b7d0-8df54f6a4d0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\CAD\PNG">
+      <UniqueIdentifier>{a395b2aa-b8e1-4c18-bdb1-fc78b64a9ec2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CADPrototype.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_demo.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_draw.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_glfw.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_opengl3.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_tables.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_widgets.cpp">
-      <Filter>Файлы заголовков\ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="GlfwOcctWindow.cpp">
       <Filter>Исходные файлы\Platform</Filter>
@@ -111,35 +93,35 @@
     <ClCompile Include="LmStudioClient.cpp">
       <Filter>Исходные файлы\LLM</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\backends\imgui_impl_glfw.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\imgui.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_demo.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_draw.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_tables.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_widgets.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PNG_Reader.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imgui.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_glfw.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3_loader.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_internal.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
     <ClInclude Include="GlfwOcctWindow.h">
       <Filter>Исходные файлы\Platform</Filter>
     </ClInclude>
@@ -194,5 +176,49 @@
     <ClInclude Include="LmStudioClient.h">
       <Filter>Исходные файлы\LLM</Filter>
     </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imconfig.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imgui.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_glfw.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imgui_internal.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_rectpack.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_textedit.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_truetype.h">
+      <Filter>Файлы заголовков\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\stb_image.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="PNG_Reader.h">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\FirstBTNFrame.bmp">
+      <Filter>Исходные файлы\CAD\PNG</Filter>
+    </Image>
+    <Image Include="..\SecondBTNFrame.bmp">
+      <Filter>Исходные файлы\CAD\PNG</Filter>
+    </Image>
   </ItemGroup>
 </Project>
