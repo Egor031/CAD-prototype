@@ -16,5 +16,5 @@ public:
 
 private:
     bool myInitialized = false;
-    Document Document;
+   // Document doc;
 };

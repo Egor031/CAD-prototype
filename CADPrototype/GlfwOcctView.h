@@ -46,7 +46,6 @@ private:
     static void errorCallback(int theError, const char* theDescription);
     static GlfwOcctView* toView(GLFWwindow* theWin);
 
-    void DsShapeToView(TopoDS_Shape);
 
     static void onResizeCallback(GLFWwindow* theWin, int theWidth, int theHeight)
     {
