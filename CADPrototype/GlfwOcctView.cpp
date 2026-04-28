@@ -127,7 +127,15 @@ void GlfwOcctView::initViewCube()
     myContext->Display(aCube, false);
 }
 
+/*
+void GlfwOcctView::DsShapeToView(TopoDS_Shape Shape)
+{
 
+    Handle(AIS_Shape) Display = new AIS_Shape(Shape);
+    myContext->Display(Display, false);
+    return;
+}
+*/
 //void GlfwOcctView::initDemoScene()
 //{
 //    if (!myCad) return;

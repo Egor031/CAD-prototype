@@ -120,6 +120,12 @@
     <ClCompile Include="PNG_Reader.cpp">
       <Filter>Исходные файлы\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="BoxGui.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateBox.cpp">
+      <Filter>Исходные файлы\CAD\Solid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlfwOcctWindow.h">
@@ -212,12 +218,18 @@
     <ClInclude Include="PNG_Reader.h">
       <Filter>Исходные файлы\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="CreateBox.h">
+      <Filter>Исходные файлы\CAD\Solid</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxGui.h">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\FirstBTNFrame.bmp">
+    <Image Include="..\SecondBTNFrame.png">
       <Filter>Исходные файлы\CAD\PNG</Filter>
     </Image>
-    <Image Include="..\SecondBTNFrame.bmp">
+    <Image Include="..\FirstBTNFrame.png">
       <Filter>Исходные файлы\CAD\PNG</Filter>
     </Image>
   </ItemGroup>

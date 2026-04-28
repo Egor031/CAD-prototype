@@ -14,7 +14,7 @@ ImTextureID PNG_Reader::PNG_Read_ImGuiTex(std::string filename)
     int w;
     int h;
     int comp;
-    unsigned char* image = stbi_load(filename.c_str(), &w, &h, &comp, 3);
+    unsigned char* image = stbi_load(filename.c_str(), &w, &h, &comp, 4);
 
 
     glGenTextures(1, &texture);
@@ -27,9 +27,9 @@ ImTextureID PNG_Reader::PNG_Read_ImGuiTex(std::string filename)
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     //if (comp == 3)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     //else if (comp == 4)
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
     glBindTexture(GL_TEXTURE_2D, 0);
 

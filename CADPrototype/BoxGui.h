@@ -1,15 +1,14 @@
 #pragma once
 
-#include "PNG_Reader.h"
-#include "BoxGui.h"
+#include "CreateBox.h"
 
 struct GLFWwindow;
 
-class Tools
+class BoxGui
 {
 public:
-    Tools() = default;
-    ~Tools() = default;
+    BoxGui() = default;
+    ~BoxGui() = default;
 
     void Init(GLFWwindow* theWindow);
     void Shutdown();
@@ -20,6 +19,6 @@ public:
 
 private:
     bool myInitialized = false;
-    PNG_Reader PNG_Reader;
-    BoxGui BoxGui;
+    CreateBox CreateBox;
 };
+

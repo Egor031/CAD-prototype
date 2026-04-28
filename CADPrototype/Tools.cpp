@@ -62,13 +62,14 @@ void Tools::BeginFrame()
 
 
 static int count = 0;
-
+static bool DrawBoxGui=0;
 void Tools::Draw()
 {
 
     ImGui::Begin("Tools");
-    std::string File1 = R"(D:\Learn\Diplom\Build1\FirstBTNFrame.bmp)";
-    std::string File2 = R"(D:\Learn\Diplom\Build1\SecondBTNFrame.bmp)";
+    std::string File1 = R"(D:\Learn\Diplom\PNG\FirstBTNFrame.png)";
+    std::string File2 = R"(D:\Learn\Diplom\PNG\SecondBTNFrame.png)";
+    std::string File3 = R"(D:\Learn\Diplom\PNG\BoxPng.png)";
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -79,9 +80,12 @@ void Tools::Draw()
     if (ImGui::ImageButton("FirstPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File1), ToolsBtnSize)) count++;
     ImGui::SameLine();
     if (ImGui::ImageButton("SecondPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File2), ToolsBtnSize)) count=0;
+    ImGui::SameLine();
+    if (ImGui::ImageButton("BoxPng", PNG_Reader.PNG_Read_ImGuiTex(File3), ToolsBtnSize)) DrawBoxGui = 1;
     ImGui::PopStyleColor(3);
     ImGui::PopStyleVar();
     ImGui::Text("%d", count);
+    if (DrawBoxGui) BoxGui.Draw();
     ImGui::End();
     
 }
