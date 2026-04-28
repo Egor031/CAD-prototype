@@ -45,7 +45,6 @@ private:
 
     std::string myLlmRequest;
     std::string myLlmRaw;
-    std::string myLlmCommands;
     std::string myLlmError;
 
     static constexpr size_t kSmallBuf = 1024;

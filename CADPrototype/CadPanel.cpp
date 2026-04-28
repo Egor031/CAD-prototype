@@ -11,7 +11,7 @@
 #include <utility>
 #include <cstring>
 
-#include "LlmAgent.h"   // из LLM/
+#include "LmStudioClient.h"
 
 void CadPanel::SyncPromptBufFromString()
 {
@@ -168,14 +168,33 @@ bool CadPanel::Draw(History& history, Document& doc)
 
         const std::string state = doc.ExportStateJson();
 
-        auto res = LlmAgent::RunLmStudioChat(
+        std::string systemPrompt =
+            "You are a CAD assistant.\n"
+            "Return ONLY a valid JSON array of commands.\n"
+            "No explanations. No markdown. No code fences.\n"
+            "Supported command types:\n"
+            "- AddBox {type, dx, dy, dz}\n"
+            "- AddBoxWithId {type, id, dx, dy, dz}\n"
+            "- DeleteEntity {type, id}\n"
+            "- UpdateBox {type, id, dx, dy, dz}\n";
+
+        std::string userPrompt =
+            "User request:\n" + myPrompt + "\n\n"
+            "Current CAD state (JSON):\n" + state + "\n\n"
+            "Return ONLY JSON array of commands.";
+
+        auto res = LmStudioClient::ChatCompletions(
             myEndpoint,
             myModel,
-            myPrompt,
-            state
+            systemPrompt,
+            userPrompt,
+            0.1,
+            512
         );
+
         myLlmRequest = res.requestJson;
-        myLlmResponse = res.responseJson;
+        myLlmRaw = res.rawResponseJson;
+        myLlmResponse = res.content;
 
         // применяем команды
         std::string err;
