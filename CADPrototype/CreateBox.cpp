@@ -4,24 +4,9 @@
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <sstream>
 
-void CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], char Len[100], char  Wid[100], char  Hei[100])
+std::string CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], char Len[100], char  Wid[100], char  Hei[100], Document& doc)
 {
-    for(int i = 0;i < 100;i++)
-    {
-        if ((isdigit(InX[i])&&(InX!=NULL)))
-            if ((isdigit(InX[i]) && (InX != NULL)))
-                if (isdigit(InZ[i]))
-                    if (isdigit(Len[i]))
-                        if (isdigit(Wid[i]))
-                            if (isdigit(Len[i]))
-                                ;
-                            else return;
-                        else return;
-                    else return;
-                else return;
-            else return;
-        else return;
-    }
+   
     char* endptr;
     int intInX = std::stoi(InX);
     int intInY = std::stoi(InY);
@@ -35,8 +20,7 @@ void CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], char Len[
 
     BRepPrimAPI_MakeBox makeBox(p1, p2);
     TopoDS_Shape myBox = makeBox.Shape();
-    //doc.AddShape(myBox);
-    //Handle(AIS_Shape) Display = new AIS_Shape(myBox);
-    //myContext->Display(Display, false);
-    //GlfwOcctView.DsShapeToView(myBox);
+    doc.AddShape(myBox);
+    std::string a;
+    return (a);
 }

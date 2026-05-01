@@ -1,11 +1,11 @@
-#include "BoxGui.h"
+#include "CyllGui.h"
 
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <imgui.h>
 #include <stdio.h>
 
-#include "CreateBox.h"
+#include "CreateCyll.h"
 
 #include <GLFW/glfw3.h>
 
@@ -16,14 +16,16 @@
 #include <string>
 
 
-static char Input1[100] = "Start X",
-Input2[100] = "Start Y",
-Input3[100] = "Start Z",
-Input4[100] = "Lenght",
-Input5[100] = "Width",
-Input6[100] = "Height";
+static char Input1[100] = "Center point X",
+Input2[100] = "Center point Y",
+Input3[100] = "Center point Z",
+Input4[100] = "Diametr",
+Input5[100] = "Height",
+Input6[100] = "Axis multiply X",
+Input7[100] = "Axis multiply Y",
+Input8[100] = "Axis multiply Z";
 
-void BoxGui::Init(GLFWwindow* window)
+void CyllGui::Init(GLFWwindow* window)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -47,7 +49,7 @@ void BoxGui::Init(GLFWwindow* window)
     ImGui_ImplOpenGL3_Init("#version 460");
 }
 
-void BoxGui::Shutdown()
+void CyllGui::Shutdown()
 {
     if (!myInitialized) return;
 
@@ -58,7 +60,7 @@ void BoxGui::Shutdown()
     myInitialized = false;
 }
 
-void BoxGui::BeginFrame()
+void CyllGui::BeginFrame()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -66,31 +68,33 @@ void BoxGui::BeginFrame()
 }
 
 
-static bool Flag1=1;
+static bool Flag1 = 1;
 
-void BoxGui::Draw(Document& doc)
+void CyllGui::Draw(Document& doc)
 {
     Flag1 = 1;
-    ImGui::Begin("Box");
-    ImGui::InputText("Start point X", Input1, 50);
-    ImGui::InputText("Start point Y", Input2, 50);
-    ImGui::InputText("Start point Z", Input3, 50);
-    ImGui::InputText("Lenght", Input4, 50);
-    ImGui::InputText("Width", Input5, 50);
-    ImGui::InputText("Height", Input6, 50);
-    if (ImGui::Button("CreateBox")) {CreateBox.DrawBox(Input1, Input2, Input3, Input4, Input5, Input6, doc); Flag1 = 0;}
+    ImGui::Begin("Cyllinder");
+    ImGui::InputText("Center point X", Input1, 50);
+    ImGui::InputText("Center point Y", Input2, 50);
+    ImGui::InputText("Center point Z", Input3, 50);
+    ImGui::InputText("Diametr", Input4, 50);
+    ImGui::InputText("Height", Input5, 50);
+    ImGui::InputText("Axis multiply X", Input6, 50);
+    ImGui::InputText("Axis multiply Y", Input7, 50);
+    ImGui::InputText("Axis multiply Z", Input8, 50);
+    if (ImGui::Button("CreateCyll")) {CreateCyll.DrawCyll(Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8, doc);Flag1 = 0;}
     ImGui::SameLine();
-    if (ImGui::Button("Cancel")) Flag1=0;
+    if (ImGui::Button("Cancel")) Flag1 = 0;
     ImGui::End();
 
 }
 
-bool BoxGui::DoDraw()
+bool CyllGui::DoDraw()
 {
     return (Flag1);
 }
 
-void BoxGui::EndFrame()
+void CyllGui::EndFrame()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

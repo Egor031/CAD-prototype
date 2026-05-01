@@ -24,7 +24,6 @@ void Tools::Init(GLFWwindow* window)
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    // === ВАЖНО: поддержка кириллицы ===
     ImFontConfig cfg;
     cfg.OversampleH = 3;
     cfg.OversampleV = 3;
@@ -37,7 +36,6 @@ void Tools::Init(GLFWwindow* window)
         io.Fonts->GetGlyphRangesCyrillic()
     );
 
-    // Backend
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460");
 }
@@ -63,13 +61,15 @@ void Tools::BeginFrame()
 
 static int count = 0;
 static bool DrawBoxGui=0;
-void Tools::Draw()
+static bool DrawCyllGui = 0;
+void Tools::Draw(Document& doc)
 {
 
     ImGui::Begin("Tools");
     std::string File1 = R"(D:\Learn\Diplom\PNG\FirstBTNFrame.png)";
     std::string File2 = R"(D:\Learn\Diplom\PNG\SecondBTNFrame.png)";
     std::string File3 = R"(D:\Learn\Diplom\PNG\BoxPng.png)";
+    std::string File4 = R"(D:\Learn\Diplom\PNG\CyllPng.png)";
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -82,10 +82,21 @@ void Tools::Draw()
     if (ImGui::ImageButton("SecondPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File2), ToolsBtnSize)) count=0;
     ImGui::SameLine();
     if (ImGui::ImageButton("BoxPng", PNG_Reader.PNG_Read_ImGuiTex(File3), ToolsBtnSize)) DrawBoxGui = 1;
+    ImGui::SameLine();
+    if (ImGui::ImageButton("CyllPng", PNG_Reader.PNG_Read_ImGuiTex(File4), ToolsBtnSize)) DrawCyllGui = 1;
     ImGui::PopStyleColor(3);
     ImGui::PopStyleVar();
     ImGui::Text("%d", count);
-    if (DrawBoxGui) BoxGui.Draw();
+    if (DrawBoxGui)
+    {
+        BoxGui.Draw(doc);
+        if (!BoxGui.DoDraw()) DrawBoxGui = 0;
+    }
+    if (DrawCyllGui)
+    {
+        CyllGui.Draw(doc);
+        if (!CyllGui.DoDraw()) DrawCyllGui = 0;
+    }
     ImGui::End();
     
 }

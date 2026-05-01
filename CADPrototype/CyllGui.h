@@ -1,25 +1,25 @@
 #pragma once
 
-#include "CreateBox.h"
+#include "CreateCyll.h"
 
 struct GLFWwindow;
 
-class BoxGui
+class CyllGui
 {
 public:
-    BoxGui() = default;
-    ~BoxGui() = default;
+    CyllGui() = default;
+    ~CyllGui() = default;
 
     void Init(GLFWwindow* theWindow);
     void Shutdown();
 
     void BeginFrame();
-    void Draw(Document& doc);      
+    void Draw(Document& doc);  
     bool DoDraw();
     void EndFrame();
 
 private:
     bool myInitialized = false;
-    CreateBox CreateBox;
+    CreateCyll CreateCyll;
 };
 

@@ -2,6 +2,7 @@
 
 #include "PNG_Reader.h"
 #include "BoxGui.h"
+#include "CyllGui.h"
 
 struct GLFWwindow;
 
@@ -15,11 +16,12 @@ public:
     void Shutdown();
 
     void BeginFrame();
-    void Draw();      // тут рисуем окна/панели
+    void Draw(Document& doc);     
     void EndFrame();
 
 private:
     bool myInitialized = false;
     PNG_Reader PNG_Reader;
     BoxGui BoxGui;
+    CyllGui CyllGui;
 };

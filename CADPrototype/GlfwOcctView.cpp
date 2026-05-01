@@ -149,7 +149,7 @@ void GlfwOcctView::mainloop()
 
         const bool changed = myCadPanel.Draw(myHistory, *myDocument);
         myGui.Draw();
-        myTools.Draw();
+        myTools.Draw(*myDocument);
         myGui.EndFrame();
 
         glfwSwapBuffers(myOcctWindow->getGlfwWindow());
