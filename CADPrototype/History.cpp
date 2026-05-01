@@ -17,6 +17,17 @@ void History::Apply(std::unique_ptr<ICommand> cmd, Document& doc)
     myRedoStack.clear();
 }
 
+void History::GetJSON(std::unique_ptr<ICommand> cmd, Document& doc)
+{
+    cmd->Apply(doc);
+
+    // добавляем в историю построения
+    myAppliedJson.push_back(cmd->ToJson());
+
+    myUndoStack.push_back(std::move(cmd));
+    myRedoStack.clear();
+}
+
 void History::Undo(Document& doc)
 {
     if (myUndoStack.empty())

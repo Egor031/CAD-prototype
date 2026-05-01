@@ -16,6 +16,7 @@ public:
     History() = default;
     ~History(); // объявили, но не определяем тут
     void Apply(std::unique_ptr<ICommand> cmd, Document& doc);
+    void GetJSON(std::unique_ptr<ICommand> cmd, Document& doc);
 
     void Undo(Document& doc);
     void Redo(Document& doc);

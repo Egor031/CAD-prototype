@@ -62,7 +62,7 @@ void Tools::BeginFrame()
 static int count = 0;
 static bool DrawBoxGui=0;
 static bool DrawCyllGui = 0;
-void Tools::Draw(Document& doc)
+void Tools::Draw(History& history, Document& doc)
 {
 
     ImGui::Begin("Tools");

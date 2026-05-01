@@ -6,6 +6,8 @@
 
 struct GLFWwindow;
 
+class History;
+
 class Tools
 {
 public:
@@ -16,7 +18,7 @@ public:
     void Shutdown();
 
     void BeginFrame();
-    void Draw(Document& doc);     
+    void Draw(History& history, Document& doc);
     void EndFrame();
 
 private:
