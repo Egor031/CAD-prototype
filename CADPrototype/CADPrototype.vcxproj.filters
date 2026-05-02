@@ -93,44 +93,44 @@
     <ClCompile Include="LmStudioClient.cpp">
       <Filter>Исходные файлы\LLM</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\backends\imgui_impl_glfw.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_demo.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\imgui.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_draw.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_demo.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_glfw.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_draw.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_opengl3.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_tables.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_tables.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ImGUI 1.92.7\imgui_widgets.cpp">
+    <ClCompile Include="..\..\imgui-1.92.4\imgui_widgets.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Tools.cpp">
-      <Filter>Исходные файлы\GUI</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="PNG_Reader.cpp">
-      <Filter>Исходные файлы\GUI</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="BoxGui.cpp">
-      <Filter>Исходные файлы\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateBox.cpp">
-      <Filter>Исходные файлы\CAD\Solid</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="CyllGui.cpp">
-      <Filter>Исходные файлы\GUI</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateBox.cpp">
+      <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="CreateCyll.cpp">
-      <Filter>Исходные файлы\CAD\Solid</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
     <ClCompile Include="FuseGui.cpp">
       <Filter>Исходные файлы\GUI</Filter>
@@ -194,53 +194,50 @@
     <ClInclude Include="LmStudioClient.h">
       <Filter>Исходные файлы\LLM</Filter>
     </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>Исходные файлы\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imconfig.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imgui.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_glfw.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imgui_internal.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_rectpack.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_textedit.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ImGUI 1.92.7\imstb_truetype.h">
-      <Filter>Файлы заголовков\ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\stb_image.h">
+    <ClInclude Include="..\..\imgui-1.92.4\imconfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="PNG_Reader.h">
-      <Filter>Исходные файлы\GUI</Filter>
+    <ClInclude Include="..\..\imgui-1.92.4\imgui.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CreateBox.h">
-      <Filter>Исходные файлы\CAD\Solid</Filter>
+    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_glfw.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3_loader.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imgui_internal.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="PNG_Reader.h">
+      <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="BoxGui.h">
-      <Filter>Исходные файлы\GUI</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="CyllGui.h">
-      <Filter>Исходные файлы\GUI</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateBox.h">
+      <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="CreateCyll.h">
-      <Filter>Исходные файлы\CAD\Solid</Filter>
+      <Filter>Исходные файлы\CAD</Filter>
     </ClInclude>
     <ClInclude Include="FuseGui.h">
       <Filter>Исходные файлы\GUI</Filter>
@@ -250,10 +247,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\SecondBTNFrame.png">
+    <Image Include="PNG\BoxPng.png">
       <Filter>Исходные файлы\CAD\PNG</Filter>
     </Image>
-    <Image Include="..\FirstBTNFrame.png">
+    <Image Include="PNG\CyllPng.png">
+      <Filter>Исходные файлы\CAD\PNG</Filter>
+    </Image>
+    <Image Include="PNG\FirstBTNFrame.png">
+      <Filter>Исходные файлы\CAD\PNG</Filter>
+    </Image>
+    <Image Include="PNG\SecondBTNFrame.png">
       <Filter>Исходные файлы\CAD\PNG</Filter>
     </Image>
   </ItemGroup>
