@@ -1,16 +1,21 @@
 #include "CmdAddBox.h"
 
-#include <BRepPrimAPI_MakeBox.hxx>
 #include <sstream>
 
 CmdAddBox::CmdAddBox(double dx, double dy, double dz)
     : myDx(dx), myDy(dy), myDz(dz)
-{
-}
+{}
 
 void CmdAddBox::Apply(Document& doc)
 {
-    myCreatedId = doc.AddBox(myDx, myDy, myDz);
+    if (myCreatedId == 0)
+    {
+        myCreatedId = doc.AddBox(myDx, myDy, myDz);
+    }
+    else
+    {
+        doc.AddBoxWithId(myCreatedId, myDx, myDy, myDz);
+    }
 }
 
 void CmdAddBox::Undo(Document& doc)
@@ -22,11 +27,26 @@ void CmdAddBox::Undo(Document& doc)
 std::string CmdAddBox::ToJson() const
 {
     std::ostringstream ss;
-    ss << "{"
-        << "\"type\":\"AddBox\","
-        << "\"dx\":" << myDx << ","
-        << "\"dy\":" << myDy << ","
-        << "\"dz\":" << myDz
-        << "}";
+
+    if (myCreatedId != 0)
+    {
+        ss << "{"
+            << "\"type\":\"AddBoxWithId\","
+            << "\"id\":" << myCreatedId << ","
+            << "\"dx\":" << myDx << ","
+            << "\"dy\":" << myDy << ","
+            << "\"dz\":" << myDz
+            << "}";
+    }
+    else
+    {
+        ss << "{"
+            << "\"type\":\"AddBox\","
+            << "\"dx\":" << myDx << ","
+            << "\"dy\":" << myDy << ","
+            << "\"dz\":" << myDz
+            << "}";
+    }
+
     return ss.str();
 }
