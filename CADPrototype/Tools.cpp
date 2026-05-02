@@ -63,6 +63,7 @@ static int count = 0;
 static bool DrawBoxGui=0;
 static bool DrawCyllGui = 0;
 static bool DrawFuseGui = 0;
+
 void Tools::Draw(Document& doc)
 {
 

@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)opencascade-7.9.2-vc14-64\inc;$(SolutionDir)imgui-1.92.4;$(SolutionDir)glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty-vc14-64\vtk-9.4.1-x64\include\vtk-9.4;$(SolutionDir)opencascade-7.9.2-vc14-64\inc;$(SolutionDir)imgui-1.92.4/backends;$(SolutionDir);$(SolutionDir)imgui-1.92.4;$(SolutionDir)glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -135,13 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\imgui-1.92.4\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\..\imgui-1.92.4\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_demo.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_draw.cpp" />
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\..\imgui-1.92.4\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_tables.cpp" />
     <ClCompile Include="..\..\imgui-1.92.4\imgui_widgets.cpp" />
+    <ClCompile Include="BoxGui.cpp" />
     <ClCompile Include="CadPanel.cpp" />
     <ClCompile Include="CADPrototype.cpp" />
     <ClCompile Include="CadSession.cpp" />
@@ -151,7 +152,12 @@
     <ClCompile Include="CmdDeleteEntity.cpp" />
     <ClCompile Include="CmdUpdateBox.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
+    <ClCompile Include="CreateBox.cpp" />
+    <ClCompile Include="CreateCyll.cpp" />
+    <ClCompile Include="CyllGui.cpp" />
     <ClCompile Include="Document.cpp" />
+    <ClCompile Include="Fuse.cpp" />
+    <ClCompile Include="FuseGui.cpp" />
     <ClCompile Include="GlfwOcctView.cpp" />
     <ClCompile Include="GlfwOcctWindow.cpp" />
     <ClCompile Include="GuiApp.cpp" />
@@ -159,17 +165,19 @@
     <ClCompile Include="LlmAgent.cpp" />
     <ClCompile Include="LmStudioClient.cpp" />
     <ClCompile Include="OcctInputController.cpp" />
+    <ClCompile Include="PNG_Reader.cpp" />
+    <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\imgui-1.92.4\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="..\..\imgui-1.92.4\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imconfig.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imgui.h" />
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_glfw.h" />
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\..\imgui-1.92.4\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imgui_internal.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_rectpack.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_textedit.h" />
     <ClInclude Include="..\..\imgui-1.92.4\imstb_truetype.h" />
+    <ClInclude Include="BoxGui.h" />
     <ClInclude Include="CadPanel.h" />
     <ClInclude Include="CadSession.h" />
     <ClInclude Include="CmdAddBox.h" />
@@ -178,7 +186,12 @@
     <ClInclude Include="CmdDeleteEntity.h" />
     <ClInclude Include="CmdUpdateBox.h" />
     <ClInclude Include="CommandFactory.h" />
+    <ClInclude Include="CreateBox.h" />
+    <ClInclude Include="CreateCyll.h" />
+    <ClInclude Include="CyllGui.h" />
     <ClInclude Include="Document.h" />
+    <ClInclude Include="Fuse.h" />
+    <ClInclude Include="FuseGui.h" />
     <ClInclude Include="GlfwOcctView.h" />
     <ClInclude Include="GlfwOcctWindow.h" />
     <ClInclude Include="GuiApp.h" />
@@ -189,6 +202,9 @@
     <ClInclude Include="LlmAgent.h" />
     <ClInclude Include="LmStudioClient.h" />
     <ClInclude Include="OcctInputController.h" />
+    <ClInclude Include="PNG_Reader.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
