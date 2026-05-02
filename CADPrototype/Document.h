@@ -23,6 +23,12 @@ public:
     EntityId AddBox(double dx, double dy, double dz);
     bool AddBoxWithId(EntityId id, double dx, double dy, double dz);
 
+    // 2D vector API
+    EntityId AddLine(double x1, double y1, double x2, double y2);
+    bool AddLineWithId(EntityId id, double x1, double y1, double x2, double y2);
+
+    bool TryGetSelectedEntityId(EntityId& outId) const;
+
     bool TryGetBoxParams(EntityId id, double& dx, double& dy, double& dz) const;
     bool UpdateBox(EntityId id, double dx, double dy, double dz);
 
@@ -59,9 +65,13 @@ private:
         EntityId id = 0;
         Handle(AIS_Shape) ais;
 
-        // metadata for LLM/state
-        std::string kind;   // "Box" / "Generic"
-        double dx = 0, dy = 0, dz = 0; // только для kind=="Box"
+        std::string kind;   // "Box" / "Line" / "Generic"
+
+        // Box params
+        double dx = 0, dy = 0, dz = 0;
+
+        // Line params
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     };
 
     std::vector<ShapeEntry> myShapes;

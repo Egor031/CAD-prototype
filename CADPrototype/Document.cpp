@@ -2,6 +2,9 @@
 
 #include <sstream>
 #include <BRepPrimAPI_MakeBox.hxx>
+#include <BRepBuilderAPI_MakeEdge.hxx>
+#include <gp_Pnt.hxx>
+#include <AIS_InteractiveObject.hxx>
 
 #include <iostream>
 
@@ -156,6 +159,13 @@ std::string Document::ExportStateJson() const
                 << ",\"dy\":" << e.dy
                 << ",\"dz\":" << e.dz;
         }
+        else if (e.kind == "Line")
+        {
+            ss << ",\"x1\":" << e.x1
+                << ",\"y1\":" << e.y1
+                << ",\"x2\":" << e.x2
+                << ",\"y2\":" << e.y2;
+        }
 
         ss << "}";
         if (i + 1 < myShapes.size()) ss << ",";
@@ -250,4 +260,90 @@ bool Document::AddShapeWithIdAndMeta(EntityId id,
         myNextId = id + 1;
 
     return true;
+}
+
+EntityId Document::AddLine(double x1, double y1, double x2, double y2)
+{
+    TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(
+        gp_Pnt(x1, y1, 0.0),
+        gp_Pnt(x2, y2, 0.0)
+    ).Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    EntityId id = GenerateId();
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Line";
+    e.x1 = x1;
+    e.y1 = y1;
+    e.x2 = x2;
+    e.y2 = y2;
+
+    myShapes.push_back(e);
+
+    return id;
+}
+
+bool Document::AddLineWithId(EntityId id, double x1, double y1, double x2, double y2)
+{
+    for (const auto& s : myShapes)
+        if (s.id == id)
+            return false;
+
+    TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(
+        gp_Pnt(x1, y1, 0.0),
+        gp_Pnt(x2, y2, 0.0)
+    ).Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Line";
+    e.x1 = x1;
+    e.y1 = y1;
+    e.x2 = x2;
+    e.y2 = y2;
+
+    myShapes.push_back(e);
+
+    if (id >= myNextId)
+        myNextId = id + 1;
+
+    return true;
+}
+
+bool Document::TryGetSelectedEntityId(EntityId& outId) const
+{
+    outId = 0;
+
+    if (myContext.IsNull())
+        return false;
+
+    myContext->InitSelected();
+
+    if (!myContext->MoreSelected())
+        return false;
+
+    Handle(AIS_InteractiveObject) selected = myContext->SelectedInteractive();
+
+    if (selected.IsNull())
+        return false;
+
+    for (const auto& e : myShapes)
+    {
+        if (e.ais == selected)
+        {
+            outId = e.id;
+            return true;
+        }
+    }
+
+    return false;
 }

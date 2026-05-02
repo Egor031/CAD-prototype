@@ -6,6 +6,7 @@
 #include "Document.h"
 #include "CmdAddBoxWithId.h"
 #include "CmdUpdateBox.h"
+#include "CmdAddLine.h"
 
 #include <cctype>
 #include <regex>
@@ -182,6 +183,23 @@ namespace
         return true;
     }
 
+    static bool TryParseAddLine(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
+    {
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+        if (!TryGetNumber(obj, "x1", x1) ||
+            !TryGetNumber(obj, "y1", y1) ||
+            !TryGetNumber(obj, "x2", x2) ||
+            !TryGetNumber(obj, "y2", y2))
+        {
+            error = "AddLine requires numeric fields x1, y1, x2, y2.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CmdAddLine>(x1, y1, x2, y2);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -193,6 +211,9 @@ namespace
 
         if (type == "AddBox")
             return TryParseAddBox(obj, outCmd, error);
+
+        if (type == "AddLine")
+            return TryParseAddLine(obj, outCmd, error);
 
         if (type == "DeleteEntity")
             return TryParseDeleteEntity(obj, outCmd, error);
@@ -212,11 +233,13 @@ namespace
         if (type == "UpdateBox")
             return TryParseUpdateBox(obj, outCmd, error);
 
+        
+
         error = "Unsupported command type: " + type;
         return false;
     }
 
-
+    
 
 }
 std::vector<std::unique_ptr<ICommand>> CommandFactory::ParseCommandArray(

@@ -6,6 +6,7 @@
 #include "Document.h"
 #include "CmdAddBox.h"
 #include "CommandFactory.h"
+#include "CmdDeleteEntity.h"
 
 #include <memory>
 #include <utility>
@@ -87,6 +88,16 @@ bool CadPanel::Draw(History& history, Document& doc)
         changed = true;
     }
 
+    if (ImGui::Button("Delete selected"))
+    {
+        EntityId selectedId = 0;
+
+        if (doc.TryGetSelectedEntityId(selectedId))
+        {
+            history.Apply(std::make_unique<CmdDeleteEntity>(selectedId), doc);
+            changed = true;
+        }
+    }
     static std::string stateJson;
 
     if (ImGui::Button("Refresh State JSON"))

@@ -147,6 +147,7 @@
     <ClCompile Include="CadSession.cpp" />
     <ClCompile Include="CmdAddBox.cpp" />
     <ClCompile Include="CmdAddBoxWithId.cpp" />
+    <ClCompile Include="CmdAddLine.cpp" />
     <ClCompile Include="CmdDeleteEntity.cpp" />
     <ClCompile Include="CmdUpdateBox.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="CadSession.h" />
     <ClInclude Include="CmdAddBox.h" />
     <ClInclude Include="CmdAddBoxWithId.h" />
+    <ClInclude Include="CmdAddLine.h" />
     <ClInclude Include="CmdDeleteEntity.h" />
     <ClInclude Include="CmdUpdateBox.h" />
     <ClInclude Include="CommandFactory.h" />
