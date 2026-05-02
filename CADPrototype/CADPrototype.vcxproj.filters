@@ -132,6 +132,12 @@
     <ClCompile Include="CreateCyll.cpp">
       <Filter>Исходные файлы\CAD\Solid</Filter>
     </ClCompile>
+    <ClCompile Include="FuseGui.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Fuse.cpp">
+      <Filter>Исходные файлы\CAD\Solid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlfwOcctWindow.h">
@@ -234,6 +240,12 @@
       <Filter>Исходные файлы\GUI</Filter>
     </ClInclude>
     <ClInclude Include="CreateCyll.h">
+      <Filter>Исходные файлы\CAD\Solid</Filter>
+    </ClInclude>
+    <ClInclude Include="FuseGui.h">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Fuse.h">
       <Filter>Исходные файлы\CAD\Solid</Filter>
     </ClInclude>
   </ItemGroup>

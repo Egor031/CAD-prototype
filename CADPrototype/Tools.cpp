@@ -62,6 +62,7 @@ void Tools::BeginFrame()
 static int count = 0;
 static bool DrawBoxGui=0;
 static bool DrawCyllGui = 0;
+static bool DrawFuseGui = 0;
 void Tools::Draw(Document& doc)
 {
 
@@ -70,6 +71,8 @@ void Tools::Draw(Document& doc)
     std::string File2 = R"(D:\Learn\Diplom\PNG\SecondBTNFrame.png)";
     std::string File3 = R"(D:\Learn\Diplom\PNG\BoxPng.png)";
     std::string File4 = R"(D:\Learn\Diplom\PNG\CyllPng.png)";
+    std::string File5 = R"(D:\Learn\Diplom\PNG\FusePng.png)";
+    std::string File6 = R"(D:\Learn\Diplom\PNG\Trash.png)";
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -84,6 +87,10 @@ void Tools::Draw(Document& doc)
     if (ImGui::ImageButton("BoxPng", PNG_Reader.PNG_Read_ImGuiTex(File3), ToolsBtnSize)) DrawBoxGui = 1;
     ImGui::SameLine();
     if (ImGui::ImageButton("CyllPng", PNG_Reader.PNG_Read_ImGuiTex(File4), ToolsBtnSize)) DrawCyllGui = 1;
+    ImGui::SameLine();
+    if (ImGui::ImageButton("FusePng", PNG_Reader.PNG_Read_ImGuiTex(File5), ToolsBtnSize)) DrawFuseGui = 1;
+    ImGui::SameLine();
+    if (ImGui::ImageButton("Trash", PNG_Reader.PNG_Read_ImGuiTex(File6), ToolsBtnSize)) doc.TempDell();
     ImGui::PopStyleColor(3);
     ImGui::PopStyleVar();
     ImGui::Text("%d", count);
@@ -96,6 +103,11 @@ void Tools::Draw(Document& doc)
     {
         CyllGui.Draw(doc);
         if (!CyllGui.DoDraw()) DrawCyllGui = 0;
+    }
+    if (DrawFuseGui)
+    {
+        FuseGui.Draw(doc);
+        if (!FuseGui.DoDraw()) DrawFuseGui = 0;
     }
     ImGui::End();
     

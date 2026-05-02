@@ -3,6 +3,7 @@
 #include "PNG_Reader.h"
 #include "BoxGui.h"
 #include "CyllGui.h"
+#include "FuseGui.h"
 
 struct GLFWwindow;
 
@@ -24,4 +25,5 @@ private:
     PNG_Reader PNG_Reader;
     BoxGui BoxGui;
     CyllGui CyllGui;
+    FuseGui FuseGui;
 };

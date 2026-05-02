@@ -26,6 +26,11 @@ public:
     bool TryGetBoxParams(EntityId id, double& dx, double& dy, double& dz) const;
     bool UpdateBox(EntityId id, double dx, double dy, double dz);
 
+    //Extract seleted TopoSD_Shape from context
+    TopoDS_Shape GetSelectedTPDSShape();
+
+    void TempDell();
+
     bool RemoveShape(EntityId id);
     Handle(AIS_Shape) GetShape(EntityId id);
 

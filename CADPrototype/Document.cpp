@@ -30,6 +30,26 @@ EntityId Document::AddShape(const TopoDS_Shape& shape)
     return id;
 }
 
+
+TopoDS_Shape Document::GetSelectedTPDSShape()
+{
+    myContext->InitSelected();
+    Handle(AIS_InteractiveObject) ais = myContext->SelectedInteractive();
+    Handle(AIS_Shape) aisShape = Handle(AIS_Shape)::DownCast(ais);
+    TopoDS_Shape shape = aisShape->Shape();
+    return(shape);
+}
+
+void Document::TempDell()
+{
+    static int i = myShapes.size();
+    //TopoDS_Shape shape = 
+    myContext->InitSelected();
+    Handle(AIS_InteractiveObject) ais = myContext->SelectedInteractive();
+    myContext->Remove(ais, Standard_True);
+    //AddShape(shape);
+}
+
 bool Document::RemoveShape(EntityId id)
 {
     for (auto it = myShapes.begin(); it != myShapes.end(); ++it)
@@ -45,6 +65,8 @@ bool Document::RemoveShape(EntityId id)
     std::cout << "RemoveShape id=" << id << " shapes=" << myShapes.size() << std::endl;
     return false;
 }
+
+
 
 Handle(AIS_Shape) Document::GetShape(EntityId id)
 {
