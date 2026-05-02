@@ -13,8 +13,6 @@
 #include "History.h"
 #include "CadPanel.h"   // из GUI/
 
-#include "Tools.h"
-
 class Document;
 struct GLFWwindow;
 
@@ -77,7 +75,6 @@ private:
     std::unique_ptr<Document> myDocument;
     History myHistory;
     CadPanel myCadPanel;
-    Tools myTools;
 };
 
 #endif // _GlfwOcctView_Header
