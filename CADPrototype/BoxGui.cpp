@@ -11,7 +11,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 
-//#include <vtk_glad.h>
+#include <vtk_glad.h>
 
 #include <string>
 
