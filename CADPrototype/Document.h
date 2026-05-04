@@ -27,6 +27,9 @@ public:
     EntityId AddLine(double x1, double y1, double x2, double y2);
     bool AddLineWithId(EntityId id, double x1, double y1, double x2, double y2);
 
+    EntityId AddCircle(double cx, double cy, double r);
+    bool AddCircleWithId(EntityId id, double cx, double cy, double r);
+
     bool TryGetSelectedEntityId(EntityId& outId) const;
 
     bool TryGetBoxParams(EntityId id, double& dx, double& dy, double& dz) const;
@@ -70,13 +73,16 @@ private:
         EntityId id = 0;
         Handle(AIS_Shape) ais;
 
-        std::string kind;   // "Box" / "Line" / "Generic"
+        std::string kind;   // "Box" / "Line" / "Circle" / "Generic"
 
         // Box params
         double dx = 0, dy = 0, dz = 0;
 
         // Line params
         double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+        // Circle params
+        double cx = 0, cy = 0, r = 0;
     };
 
     std::vector<ShapeEntry> myShapes;

@@ -7,6 +7,7 @@
 #include "CmdAddBoxWithId.h"
 #include "CmdUpdateBox.h"
 #include "CmdAddLine.h"
+#include "CmdAddCircle.h"
 
 #include <cctype>
 #include <regex>
@@ -200,6 +201,30 @@ namespace
         return true;
     }
 
+    static bool TryParseAddCircle(const std::string& obj,
+        std::unique_ptr<ICommand>& outCmd,
+        std::string& error)
+    {
+        double cx = 0, cy = 0, r = 0;
+
+        if (!TryGetNumber(obj, "cx", cx) ||
+            !TryGetNumber(obj, "cy", cy) ||
+            !TryGetNumber(obj, "r", r))
+        {
+            error = "AddCircle requires numeric fields cx, cy, r.";
+            return false;
+        }
+
+        if (r <= 0)
+        {
+            error = "AddCircle requires positive radius r.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CmdAddCircle>(cx, cy, r);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -215,6 +240,9 @@ namespace
         if (type == "AddLine")
             return TryParseAddLine(obj, outCmd, error);
 
+        if (type == "AddCircle")
+            return TryParseAddCircle(obj, outCmd, error);
+
         if (type == "DeleteEntity")
             return TryParseDeleteEntity(obj, outCmd, error);
 
@@ -227,6 +255,30 @@ namespace
             }
 
             outCmd = std::make_unique<CmdAddBoxWithId>((EntityId)id, dx, dy, dz);
+            return true;
+        }
+
+        if (type == "AddCircleWithId")
+        {
+            uint64_t id = 0;
+            double cx = 0, cy = 0, r = 0;
+
+            if (!TryGetU64(obj, "id", id) ||
+                !TryGetNumber(obj, "cx", cx) ||
+                !TryGetNumber(obj, "cy", cy) ||
+                !TryGetNumber(obj, "r", r))
+            {
+                error = "AddCircleWithId requires id, cx, cy, r.";
+                return false;
+            }
+
+            if (r <= 0)
+            {
+                error = "AddCircleWithId requires positive radius r.";
+                return false;
+            }
+
+            outCmd = std::make_unique<CmdAddCircle>((EntityId)id, cx, cy, r);
             return true;
         }
 

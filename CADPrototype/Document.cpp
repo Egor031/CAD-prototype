@@ -5,6 +5,9 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <gp_Pnt.hxx>
 #include <AIS_InteractiveObject.hxx>
+#include <gp_Circ.hxx>
+#include <gp_Ax2.hxx>
+#include <gp_Dir.hxx>
 
 #include <iostream>
 
@@ -188,6 +191,12 @@ std::string Document::ExportStateJson() const
                 << ",\"x2\":" << e.x2
                 << ",\"y2\":" << e.y2;
         }
+        else if (e.kind == "Circle")
+        {
+            ss << ",\"cx\":" << e.cx
+                << ",\"cy\":" << e.cy
+                << ",\"r\":" << e.r;
+        }
 
         ss << "}";
         if (i + 1 < myShapes.size()) ss << ",";
@@ -368,4 +377,63 @@ bool Document::TryGetSelectedEntityId(EntityId& outId) const
     }
 
     return false;
+}
+
+EntityId Document::AddCircle(double cx, double cy, double r)
+{
+    gp_Circ circle(
+        gp_Ax2(gp_Pnt(cx, cy, 0.0), gp_Dir(0.0, 0.0, 1.0)),
+        r
+    );
+
+    TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(circle).Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    EntityId id = GenerateId();
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Circle";
+    e.cx = cx;
+    e.cy = cy;
+    e.r = r;
+
+    myShapes.push_back(e);
+
+    return id;
+}
+
+bool Document::AddCircleWithId(EntityId id, double cx, double cy, double r)
+{
+    for (const auto& s : myShapes)
+        if (s.id == id)
+            return false;
+
+    gp_Circ circle(
+        gp_Ax2(gp_Pnt(cx, cy, 0.0), gp_Dir(0.0, 0.0, 1.0)),
+        r
+    );
+
+    TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(circle).Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Circle";
+    e.cx = cx;
+    e.cy = cy;
+    e.r = r;
+
+    myShapes.push_back(e);
+
+    if (id >= myNextId)
+        myNextId = id + 1;
+
+    return true;
 }
