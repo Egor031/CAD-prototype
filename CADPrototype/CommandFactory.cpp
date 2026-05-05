@@ -258,6 +258,25 @@ namespace
             return true;
         }
 
+        if (type == "AddLineWithId")
+        {
+            uint64_t id = 0;
+            double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+            if (!TryGetU64(obj, "id", id) ||
+                !TryGetNumber(obj, "x1", x1) ||
+                !TryGetNumber(obj, "y1", y1) ||
+                !TryGetNumber(obj, "x2", x2) ||
+                !TryGetNumber(obj, "y2", y2))
+            {
+                error = "AddLineWithId requires id, x1, y1, x2, y2.";
+                return false;
+            }
+
+            outCmd = std::make_unique<CmdAddLine>((EntityId)id, x1, y1, x2, y2);
+            return true;
+        }
+
         if (type == "AddCircleWithId")
         {
             uint64_t id = 0;

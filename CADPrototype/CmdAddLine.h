@@ -9,6 +9,7 @@ class CmdAddLine : public ICommand
 {
 public:
     CmdAddLine(double x1, double y1, double x2, double y2);
+    CmdAddLine(EntityId id, double x1, double y1, double x2, double y2);
 
     void Apply(Document& doc) override;
     void Undo(Document& doc) override;
