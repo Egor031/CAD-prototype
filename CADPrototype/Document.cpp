@@ -8,6 +8,7 @@
 #include <gp_Circ.hxx>
 #include <gp_Ax2.hxx>
 #include <gp_Dir.hxx>
+#include <BRepBuilderAPI_MakePolygon.hxx>
 
 #include <iostream>
 
@@ -196,6 +197,13 @@ std::string Document::ExportStateJson() const
             ss << ",\"cx\":" << e.cx
                 << ",\"cy\":" << e.cy
                 << ",\"r\":" << e.r;
+        }
+        else if (e.kind == "Rectangle")
+        {
+            ss << ",\"x\":" << e.rectX
+                << ",\"y\":" << e.rectY
+                << ",\"w\":" << e.rectW
+                << ",\"h\":" << e.rectH;
         }
 
         ss << "}";
@@ -429,6 +437,71 @@ bool Document::AddCircleWithId(EntityId id, double cx, double cy, double r)
     e.cx = cx;
     e.cy = cy;
     e.r = r;
+
+    myShapes.push_back(e);
+
+    if (id >= myNextId)
+        myNextId = id + 1;
+
+    return true;
+}
+
+EntityId Document::AddRectangle(double x, double y, double w, double h)
+{
+    BRepBuilderAPI_MakePolygon poly;
+    poly.Add(gp_Pnt(x, y, 0.0));
+    poly.Add(gp_Pnt(x + w, y, 0.0));
+    poly.Add(gp_Pnt(x + w, y + h, 0.0));
+    poly.Add(gp_Pnt(x, y + h, 0.0));
+    poly.Close();
+
+    TopoDS_Shape shape = poly.Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    EntityId id = GenerateId();
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Rectangle";
+    e.rectX = x;
+    e.rectY = y;
+    e.rectW = w;
+    e.rectH = h;
+
+    myShapes.push_back(e);
+
+    return id;
+}
+
+bool Document::AddRectangleWithId(EntityId id, double x, double y, double w, double h)
+{
+    for (const auto& s : myShapes)
+        if (s.id == id)
+            return false;
+
+    BRepBuilderAPI_MakePolygon poly;
+    poly.Add(gp_Pnt(x, y, 0.0));
+    poly.Add(gp_Pnt(x + w, y, 0.0));
+    poly.Add(gp_Pnt(x + w, y + h, 0.0));
+    poly.Add(gp_Pnt(x, y + h, 0.0));
+    poly.Close();
+
+    TopoDS_Shape shape = poly.Shape();
+
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
+
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = "Rectangle";
+    e.rectX = x;
+    e.rectY = y;
+    e.rectW = w;
+    e.rectH = h;
 
     myShapes.push_back(e);
 

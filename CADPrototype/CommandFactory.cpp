@@ -8,6 +8,7 @@
 #include "CmdUpdateBox.h"
 #include "CmdAddLine.h"
 #include "CmdAddCircle.h"
+#include "CmdAddRectangle.h"
 
 #include <cctype>
 #include <regex>
@@ -225,6 +226,31 @@ namespace
         return true;
     }
 
+    static bool TryParseAddRectangle(const std::string& obj,
+        std::unique_ptr<ICommand>& outCmd,
+        std::string& error)
+    {
+        double x = 0, y = 0, w = 0, h = 0;
+
+        if (!TryGetNumber(obj, "x", x) ||
+            !TryGetNumber(obj, "y", y) ||
+            !TryGetNumber(obj, "w", w) ||
+            !TryGetNumber(obj, "h", h))
+        {
+            error = "AddRectangle requires numeric fields x, y, w, h.";
+            return false;
+        }
+
+        if (w == 0 || h == 0)
+        {
+            error = "AddRectangle requires non-zero width and height.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CmdAddRectangle>(x, y, w, h);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -245,6 +271,8 @@ namespace
 
         if (type == "DeleteEntity")
             return TryParseDeleteEntity(obj, outCmd, error);
+        if (type == "AddRectangle")
+            return TryParseAddRectangle(obj, outCmd, error);
 
         if (type == "AddBoxWithId")
         {
@@ -298,6 +326,31 @@ namespace
             }
 
             outCmd = std::make_unique<CmdAddCircle>((EntityId)id, cx, cy, r);
+            return true;
+        }
+
+        if (type == "AddRectangleWithId")
+        {
+            uint64_t id = 0;
+            double x = 0, y = 0, w = 0, h = 0;
+
+            if (!TryGetU64(obj, "id", id) ||
+                !TryGetNumber(obj, "x", x) ||
+                !TryGetNumber(obj, "y", y) ||
+                !TryGetNumber(obj, "w", w) ||
+                !TryGetNumber(obj, "h", h))
+            {
+                error = "AddRectangleWithId requires id, x, y, w, h.";
+                return false;
+            }
+
+            if (w == 0 || h == 0)
+            {
+                error = "AddRectangleWithId requires non-zero width and height.";
+                return false;
+            }
+
+            outCmd = std::make_unique<CmdAddRectangle>((EntityId)id, x, y, w, h);
             return true;
         }
 

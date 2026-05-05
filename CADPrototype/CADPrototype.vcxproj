@@ -150,6 +150,7 @@
     <ClCompile Include="CmdAddBoxWithId.cpp" />
     <ClCompile Include="CmdAddCircle.cpp" />
     <ClCompile Include="CmdAddLine.cpp" />
+    <ClCompile Include="CmdAddRectangle.cpp" />
     <ClCompile Include="CmdDeleteEntity.cpp" />
     <ClCompile Include="CmdUpdateBox.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="CmdAddBoxWithId.h" />
     <ClInclude Include="CmdAddCircle.h" />
     <ClInclude Include="CmdAddLine.h" />
+    <ClInclude Include="CmdAddRectangle.h" />
     <ClInclude Include="CmdDeleteEntity.h" />
     <ClInclude Include="CmdUpdateBox.h" />
     <ClInclude Include="CommandFactory.h" />
