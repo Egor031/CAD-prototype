@@ -21,5 +21,5 @@ public:
         const std::string& systemPrompt,
         const std::string& userPrompt,
         double temperature = 0.1,
-        int maxTokens = 512);
+        int maxTokens = 1024);
 };
