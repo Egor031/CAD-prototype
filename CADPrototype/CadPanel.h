@@ -14,9 +14,15 @@ public:
 private:
     std::string myHistoryJson;
 
+    std::string myStateJson;
+
+    bool myShowDebug = false;
+
     std::string myImportJson =
         "[\n"
-        "  {\"type\":\"AddBox\",\"dx\":50,\"dy\":50,\"dz\":50}\n"
+        "  {\"type\":\"AddRectangle\",\"x\":0,\"y\":0,\"w\":100,\"h\":60},\n"
+        "  {\"type\":\"AddCircle\",\"cx\":50,\"cy\":30,\"r\":20},\n"
+        "  {\"type\":\"AddLine\",\"x1\":0,\"y1\":30,\"x2\":100,\"y2\":30}\n"
         "]";
 
     std::string myImportError;

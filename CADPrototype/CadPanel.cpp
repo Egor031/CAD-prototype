@@ -57,36 +57,40 @@ bool CadPanel::Draw(History& history, Document& doc)
     if (!myPromptBufInited)
         SyncPromptBufFromString();
 
-    ImGui::Begin("CAD");
+    ImGui::SetNextWindowSize(ImVec2(540, 720), ImGuiCond_FirstUseEver);
+    ImGui::Begin("CAD assistant");
 
-    // --- Basic ops
-    ImGui::Button("Add Box");
-    if (ImGui::IsItemActivated())
+    ImGui::Text("Scene actions");
+
+    if (ImGui::Button("Add Box"))
     {
         history.Apply(std::make_unique<CmdAddBox>(50, 50, 50), doc);
         myHistoryJson = history.ExportJson();
+        myStateJson = doc.ExportStateJson();
         changed = true;
     }
 
     ImGui::SameLine();
 
-    ImGui::Button("Undo");
-    if (ImGui::IsItemActivated())
+    if (ImGui::Button("Undo"))
     {
         history.Undo(doc);
         myHistoryJson = history.ExportJson();
+        myStateJson = doc.ExportStateJson();
         changed = true;
     }
 
     ImGui::SameLine();
 
-    ImGui::Button("Redo");
-    if (ImGui::IsItemActivated())
+    if (ImGui::Button("Redo"))
     {
         history.Redo(doc);
         myHistoryJson = history.ExportJson();
+        myStateJson = doc.ExportStateJson();
         changed = true;
     }
+
+    ImGui::SameLine();
 
     if (ImGui::Button("Delete selected"))
     {
@@ -95,82 +99,21 @@ bool CadPanel::Draw(History& history, Document& doc)
         if (doc.TryGetSelectedEntityId(selectedId))
         {
             history.Apply(std::make_unique<CmdDeleteEntity>(selectedId), doc);
+            myHistoryJson = history.ExportJson();
+            myStateJson = doc.ExportStateJson();
             changed = true;
         }
     }
     static std::string stateJson;
 
-    if (ImGui::Button("Refresh State JSON"))
-    {
-        stateJson = doc.ExportStateJson();
-    }
+    ImGui::SeparatorText("Natural language request");
 
-    ImGui::BeginChild("state_box", ImVec2(520, 160), true);
-    ImGui::TextUnformatted(stateJson.c_str());
-    ImGui::EndChild();
-
-    // --- History export
-    if (ImGui::Button("Refresh History JSON"))
-    {
-        myHistoryJson = history.ExportJson();
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Copy History"))
-    {
-        ImGui::SetClipboardText(myHistoryJson.c_str());
-    }
-
-    ImGui::BeginChild("history_box", ImVec2(520, 220), true);
-    ImGui::TextUnformatted(myHistoryJson.c_str());
-    ImGui::EndChild();
-
-    // --- Import
-    ImGui::Separator();
-    ImGui::Text("Import JSON:");
-
-    ImGui::InputTextMultiline("##import", myImportBuf, kImportBufSize, ImVec2(520, 160));
-    SyncStringFromBuf();
-
-    if (ImGui::Button("Apply JSON"))
-    {
-        myImportError.clear();
-
-        std::string err;
-        auto cmds = CommandFactory::ParseCommandArray(myImportJson, err);
-        if (!err.empty())
-        {
-            myImportError = err;
-        }
-        else
-        {
-            for (auto& c : cmds)
-            {
-                history.Apply(std::move(c), doc);
-            }
-
-            myHistoryJson = history.ExportJson();
-            changed = true;
-        }
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Copy Import"))
-    {
-        ImGui::SetClipboardText(myImportJson.c_str());
-    }
-
-    if (!myImportError.empty())
-    {
-        ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "%s", myImportError.c_str());
-    }
-
-    ImGui::Separator();
-    ImGui::Text("LLM (stub):");
-
-    ImGui::InputTextMultiline("##prompt", myPromptBuf, kPromptBufSize, ImVec2(520, 80));
+    ImGui::InputTextMultiline(
+        "##prompt",
+        myPromptBuf,
+        kPromptBufSize,
+        ImVec2(-FLT_MIN, 70)
+    );
     SyncPromptStringFromBuf();
 
     if (ImGui::Button("Run LLM"))
@@ -240,7 +183,6 @@ bool CadPanel::Draw(History& history, Document& doc)
         myLlmRaw = res.rawResponseJson;
         myLlmResponse = res.content;
 
-        // применяем команды
         std::string err;
         auto cmds = CommandFactory::ParseCommandArray(myLlmResponse, err);
         if (!err.empty())
@@ -253,29 +195,139 @@ bool CadPanel::Draw(History& history, Document& doc)
                 history.Apply(std::move(c), doc);
 
             myHistoryJson = history.ExportJson();
+            myStateJson = doc.ExportStateJson();
             changed = true;
         }
     }
 
     ImGui::SameLine();
-    if (ImGui::Button("Copy LLM Response"))
+
+    if (ImGui::Button("Copy LLM JSON"))
     {
         ImGui::SetClipboardText(myLlmResponse.c_str());
     }
 
-    ImGui::Text("LLM Request:");
-    ImGui::BeginChild("llm_req", ImVec2(520, 80), true);
-    ImGui::TextUnformatted(myLlmRequest.c_str());
-    ImGui::EndChild();
+    if (!myLlmError.empty())
+    {
+        ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "LLM error: %s", myLlmError.c_str());
+    }
 
-    ImGui::Text("LLM Response (commands_json):");
-    ImGui::BeginChild("llm_resp", ImVec2(520, 80), true);
+    ImGui::Text("Generated commands:");
+    ImGui::BeginChild("llm_resp", ImVec2(-FLT_MIN, 90), true);
     ImGui::TextUnformatted(myLlmResponse.c_str());
     ImGui::EndChild();
 
-    if (!myLlmError.empty())
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    ImGui::SeparatorText("Data");
+
+    if (ImGui::BeginTabBar("cad_tabs"))
     {
-        ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "LLM Apply Error: %s", myLlmError.c_str());
+        if (ImGui::BeginTabItem("State"))
+        {
+            if (ImGui::Button("Refresh State JSON"))
+            {
+                myStateJson = doc.ExportStateJson();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Copy State"))
+            {
+                ImGui::SetClipboardText(myStateJson.c_str());
+            }
+
+            ImGui::BeginChild("state_box", ImVec2(-FLT_MIN, 170), true);
+            ImGui::TextUnformatted(myStateJson.c_str());
+            ImGui::EndChild();
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("History"))
+        {
+            if (ImGui::Button("Refresh History JSON"))
+            {
+                myHistoryJson = history.ExportJson();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Copy History"))
+            {
+                ImGui::SetClipboardText(myHistoryJson.c_str());
+            }
+
+            ImGui::BeginChild("history_box", ImVec2(-FLT_MIN, 190), true);
+            ImGui::TextUnformatted(myHistoryJson.c_str());
+            ImGui::EndChild();
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Manual JSON"))
+        {
+            ImGui::InputTextMultiline(
+                "##import",
+                myImportBuf,
+                kImportBufSize,
+                ImVec2(-FLT_MIN, 150)
+            );
+            SyncStringFromBuf();
+
+            if (ImGui::Button("Apply JSON"))
+            {
+                myImportError.clear();
+
+                std::string err;
+                auto cmds = CommandFactory::ParseCommandArray(myImportJson, err);
+                if (!err.empty())
+                {
+                    myImportError = err;
+                }
+                else
+                {
+                    for (auto& c : cmds)
+                        history.Apply(std::move(c), doc);
+
+                    myHistoryJson = history.ExportJson();
+                    myStateJson = doc.ExportStateJson();
+                    changed = true;
+                }
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Copy Import"))
+            {
+                ImGui::SetClipboardText(myImportJson.c_str());
+            }
+
+            if (!myImportError.empty())
+            {
+                ImGui::TextColored(ImVec4(1.f, 0.4f, 0.4f, 1.f), "%s", myImportError.c_str());
+            }
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Debug"))
+        {
+            ImGui::Text("LLM Request:");
+            ImGui::BeginChild("llm_req", ImVec2(-FLT_MIN, 170), true);
+            ImGui::TextUnformatted(myLlmRequest.c_str());
+            ImGui::EndChild();
+
+            ImGui::Text("Raw response:");
+            ImGui::BeginChild("llm_raw", ImVec2(-FLT_MIN, 170), true);
+            ImGui::TextUnformatted(myLlmRaw.c_str());
+            ImGui::EndChild();
+
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
     }
 
     ImGui::End();
