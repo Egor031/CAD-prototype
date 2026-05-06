@@ -39,7 +39,7 @@ private:
     void SyncPromptBufFromString();
     void SyncPromptStringFromBuf();
 
-    std::string myPrompt = "Удали первый объект";
+    std::string myPrompt = "Построй прямоугольник 100 на 60, окружность радиусом 20 в центре и горизонтальную линию через центр";
     std::string myEndpoint = "http://localhost:1234";
     std::string myModel = ""; // позже подставим из /v1/models, пока можно руками
 
