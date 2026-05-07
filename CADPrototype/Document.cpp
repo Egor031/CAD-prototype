@@ -39,9 +39,29 @@ EntityId Document::AddShape(const TopoDS_Shape& shape)
 
 
 
-EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape)
+EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape, int id, double* input)
 {
+    Handle(AIS_Shape) ais = new AIS_Shape(shape);
+    myContext->Display(ais, AIS_Shaded, 0, Standard_True);
 
+    ShapeEntry e;
+    e.id = id;
+    e.ais = ais;
+    e.kind = kind;
+
+    if (kind == "Box")
+    {
+        e.BoxX == input[1];
+        e.BoxY == input[2];
+        e.BoxZ == input[3];
+        e.BoxLen == input[4];
+        e.BoxWid == input[5];
+        e.BoxHei == input[6];
+    }
+
+
+
+    myShapes.push_back(e);
 
     return (1);
 }

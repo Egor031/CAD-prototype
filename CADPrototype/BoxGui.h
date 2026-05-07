@@ -2,6 +2,8 @@
 
 #include "CreateBox.h"
 
+#include <memory>
+
 struct GLFWwindow;
 
 class BoxGui
@@ -14,12 +16,12 @@ public:
     void Shutdown();
 
     void BeginFrame();
-    void Draw(Document& doc);      
+    void Draw(History& history, Document& doc);
     bool DoDraw();
     void EndFrame();
 
 private:
     bool myInitialized = false;
-    CreateBox CreateBox;
+    //CreateBox CreateBox;
 };
 

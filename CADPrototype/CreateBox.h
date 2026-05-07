@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include <AIS_InteractiveContext.hxx>
 
@@ -16,4 +16,27 @@ public:
 
 private:
     bool myInitialized = false;
+};
+*/
+
+#pragma once
+
+#include "ICommand.h"
+#include "Document.h"
+#include <memory>
+
+class CreateBox : public ICommand
+{
+public:
+    CreateBox(double nullx, double nully, double nullz, double len, double wid, double hei);
+
+    void Apply(Document& doc) override;
+    void Undo(Document& doc) override;
+
+    std::string Name() const override { return "CreateBox"; }
+    std::string ToJson() const override;
+
+public:
+    double myDx, myDy, myDz, Lenght, Width, Height;
+    EntityId myCreatedId = 0;
 };

@@ -1,4 +1,4 @@
-#include "CreateBox.h"
+/*#include "CreateBox.h"
 
 #include <AIS_Shape.hxx>
 #include <BRepPrimAPI_MakeBox.hxx>
@@ -25,7 +25,7 @@ std::string CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], ch
     std::string a;
 
     std::ostringstream ss;
-    /*
+    
     std::string myBoxKind = "Box";
     int myCreatedId = doc.GenerateId();
         ss << "{"
@@ -38,9 +38,71 @@ std::string CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], ch
             << "\"wid\":" << intWid << ","
             << "\"hei\":" << intHei
             << "}";
-            */
+            
         doc.AddShape(myBox);
       //  doc.DrawShape(myBoxKind, myBox, ss.str());
     return a;
 
+}
+
+*/
+
+#include "CreateBox.h"
+#include <AIS_Shape.hxx>
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <sstream>
+#include <memory>
+
+CreateBox::CreateBox(double nullx, double nully, double nullz, double len, double wid, double hei)
+    : myDx(nullx), myDy(nully), myDz(nullz), Lenght(len), Width(wid), Height(hei)
+{
+}
+
+void CreateBox::Apply(Document& doc)
+{
+    int id = doc.GenerateId();
+    double t1 = 10, t2 = 10, t3 = 10;
+    gp_Pnt pq(t1,t2,t3);
+    gp_Pnt p1(myDx, myDy, myDz);
+    gp_Pnt p2(myDx + Lenght, myDy + Width, myDz + Height);
+
+    BRepPrimAPI_MakeBox makeBox(p1, p2);
+    TopoDS_Shape myBox = makeBox.Shape();
+
+    double input[6] = { myDx, myDy, myDz, Lenght, Width, Height };
+
+    doc.DrawShape("Box", myBox, id, input);
+}
+
+void CreateBox::Undo(Document& doc)
+{
+    if (myCreatedId != 0)
+        doc.RemoveShape(myCreatedId);
+}
+
+std::string CreateBox::ToJson() const
+{
+    std::ostringstream ss;
+
+    if (myCreatedId != 0)
+    {
+        ss << "{"
+            << "\"type\":\"AddBoxWithId\","
+            << "\"id\":" << myCreatedId << ","
+            << "\"dx\":" << myDx << ","
+            << "\"dy\":" << myDy << ","
+            << "\"dz\":" << myDz
+            << "}";
+    }
+    else
+    {
+        ss << "{"
+            << "\"type\":\"AddBox\","
+            << "\"dx\":" << myDx << ","
+            << "\"dy\":" << myDy << ","
+            << "\"dz\":" << myDz
+            << "}";
+    }
+
+    return ss.str();
 }

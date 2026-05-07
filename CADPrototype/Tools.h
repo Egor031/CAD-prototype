@@ -4,6 +4,7 @@
 #include "BoxGui.h"
 #include "CyllGui.h"
 #include "FuseGui.h"
+#include "History.h"
 
 struct GLFWwindow;
 
@@ -17,7 +18,7 @@ public:
     void Shutdown();
 
     void BeginFrame();
-    void Draw(Document& doc);     
+    void Draw(History& history, Document& doc);
     void EndFrame();
 
 private:

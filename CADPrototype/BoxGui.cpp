@@ -7,6 +7,10 @@
 
 #include "CreateBox.h"
 
+#include <memory>
+
+#include "History.h"
+
 #include <GLFW/glfw3.h>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -68,7 +72,7 @@ void BoxGui::BeginFrame()
 
 static bool Flag1=1;
 
-void BoxGui::Draw(Document& doc)
+void BoxGui::Draw(History& history, Document& doc)
 {
     Flag1 = 1;
     ImGui::Begin("Box");
@@ -78,7 +82,16 @@ void BoxGui::Draw(Document& doc)
     ImGui::InputText("Lenght", Input4, 50);
     ImGui::InputText("Width", Input5, 50);
     ImGui::InputText("Height", Input6, 50);
-    if (ImGui::Button("CreateBox")) {CreateBox.DrawBox(Input1, Input2, Input3, Input4, Input5, Input6, doc); Flag1 = 0;}
+    if (ImGui::Button("CreateBox")) { 
+        
+        double intInX = std::stoi(Input1);
+        double intInY = std::stoi(Input2);
+        double intInZ = std::stoi(Input3);
+        double intLen = std::stoi(Input4);
+        double intWid = std::stoi(Input5);
+        double intHei = std::stoi(Input6);
+        
+        history.Apply(std::make_unique <CreateBox>(intInX, intInY, intInZ, intLen, intWid, intHei), doc); Flag1 = 0;}
     ImGui::SameLine();
     if (ImGui::Button("Cancel")) Flag1=0;
     ImGui::End();

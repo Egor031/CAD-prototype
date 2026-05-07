@@ -21,7 +21,7 @@ public:
 
 
     // тут что-то умное потом написать надо
-    EntityId DrawShape(std::string kind, const TopoDS_Shape& shape);
+    EntityId DrawShape(std::string kind, const TopoDS_Shape& shape, int id, double* input);
 
     // CAD-level API (то, что нужно LLM/эскизы/параметрика)
     EntityId AddBox(double dx, double dy, double dz);

@@ -5,6 +5,8 @@
 #include <imgui.h>
 #include <stdio.h>
 
+
+
 #include "PNG_Reader.h"
 
 #include <GLFW/glfw3.h>
@@ -64,7 +66,7 @@ static bool DrawBoxGui=0;
 static bool DrawCyllGui = 0;
 static bool DrawFuseGui = 0;
 
-void Tools::Draw(Document& doc)
+void Tools::Draw(History& history, Document& doc)
 {
 
     ImGui::Begin("Tools");
@@ -97,7 +99,7 @@ void Tools::Draw(Document& doc)
     ImGui::Text("%d", count);
     if (DrawBoxGui)
     {
-        BoxGui.Draw(doc);
+        BoxGui.Draw(history, doc);
         if (!BoxGui.DoDraw()) DrawBoxGui = 0;
     }
     if (DrawCyllGui)
