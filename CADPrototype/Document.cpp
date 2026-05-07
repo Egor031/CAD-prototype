@@ -38,13 +38,38 @@ EntityId Document::AddShape(const TopoDS_Shape& shape)
 }
 
 
-TopoDS_Shape Document::GetSelectedTPDSShape()
+
+EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape)
 {
+
+
+    return (1);
+}
+
+
+
+
+int Document::GetSelectedIDShape()
+{
+    int out;
     myContext->InitSelected();
     Handle(AIS_InteractiveObject) ais = myContext->SelectedInteractive();
     Handle(AIS_Shape) aisShape = Handle(AIS_Shape)::DownCast(ais);
-    TopoDS_Shape shape = aisShape->Shape();
-    return(shape);
+    for (auto it = myShapes.begin(); it != myShapes.end(); ++it)
+        if (it->ais == aisShape)
+            out = it->id;
+    return(out);
+}
+
+TopoDS_Shape Document::GetTopoDSfromID(int id)
+{
+    Handle(AIS_Shape) aisShape;
+    for (auto it = myShapes.begin(); it != myShapes.end(); ++it)
+        if (it->id == id)
+            aisShape = it->ais;
+    TopoDS_Shape out = aisShape->Shape();
+    return (out);
+
 }
 
 void Document::TempDell()

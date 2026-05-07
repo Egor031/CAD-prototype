@@ -8,19 +8,39 @@ std::string CreateBox::DrawBox(char InX[100], char  InY[100], char  InZ[100], ch
 {
    
     char* endptr;
-    int intInX = std::stoi(InX);
-    int intInY = std::stoi(InY);
-    int intInZ = std::stoi(InZ);
-    int intLen = std::stoi(Len);
-    int intWid = std::stoi(Wid);
-    int intHei = std::stoi(Hei);
+    double intInX = std::stoi(InX);
+    double intInY = std::stoi(InY);
+    double intInZ = std::stoi(InZ);
+    double intLen = std::stoi(Len);
+    double intWid = std::stoi(Wid);
+    double intHei = std::stoi(Hei);
     
     gp_Pnt p1(intInX, intInY, intInZ);  
     gp_Pnt p2(intInX+intLen, intInY+intWid, intInZ+intHei); 
 
     BRepPrimAPI_MakeBox makeBox(p1, p2);
     TopoDS_Shape myBox = makeBox.Shape();
-    doc.AddShape(myBox);
+    
+    
     std::string a;
-    return (a);
+
+    std::ostringstream ss;
+    /*
+    std::string myBoxKind = "Box";
+    int myCreatedId = doc.GenerateId();
+        ss << "{"
+            << "\"type\":\"CreateBox\","
+            << "\"id\":" << myCreatedId << ","
+            << "\"sx\":" << intInX << ","
+            << "\"sy\":" << intInY << ","
+            << "\"sz\":" << intInZ << ","
+            << "\"len\":" << intLen << ","
+            << "\"wid\":" << intWid << ","
+            << "\"hei\":" << intHei
+            << "}";
+            */
+        doc.AddShape(myBox);
+      //  doc.DrawShape(myBoxKind, myBox, ss.str());
+    return a;
+
 }

@@ -39,8 +39,7 @@ std::string CmdAddBox::ToJson() const
             << "}";
     }
     else
-    {
-        ss << "{"
+    {        ss << "{"
             << "\"type\":\"AddBox\","
             << "\"dx\":" << myDx << ","
             << "\"dy\":" << myDy << ","

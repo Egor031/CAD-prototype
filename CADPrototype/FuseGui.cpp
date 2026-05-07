@@ -89,7 +89,7 @@ void FuseGui::Draw(Document& doc)
     if (ImGui::Button("Select First Object"))
     {
         SelectedF = 1; SelectedS = 0;
-        SOBJ = doc.GetSelectedTPDSShape();
+       // SOBJ = doc.GetSelectedTPDSShape();
     }
 
    ImGui::PopStyleColor(3);
@@ -111,7 +111,7 @@ void FuseGui::Draw(Document& doc)
     if (ImGui::Button("Select Second Object"))
     {
         SelectedF = 0; SelectedS = 1;
-        FOBJ = doc.GetSelectedTPDSShape();
+       // FOBJ = doc.GetSelectedTPDSShape();
     }
     
 

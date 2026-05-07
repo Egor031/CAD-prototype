@@ -19,6 +19,10 @@ public:
     EntityId AddShape(const TopoDS_Shape& shape);
     bool AddShapeWithId(EntityId id, const TopoDS_Shape& shape);
 
+
+    // тут что-то умное потом написать надо
+    EntityId DrawShape(std::string kind, const TopoDS_Shape& shape);
+
     // CAD-level API (то, что нужно LLM/эскизы/параметрика)
     EntityId AddBox(double dx, double dy, double dz);
     bool AddBoxWithId(EntityId id, double dx, double dy, double dz);
@@ -39,7 +43,8 @@ public:
     bool UpdateBox(EntityId id, double dx, double dy, double dz);
 
     //Extract seleted TopoSD_Shape from context
-    TopoDS_Shape GetSelectedTPDSShape();
+    int GetSelectedIDShape();
+    TopoDS_Shape GetTopoDSfromID(int id);
 
     void TempDell();
 
@@ -65,7 +70,7 @@ public:
     // (опционально) полная очистка сцены
     void Clear();
 
-private:
+public:
     EntityId GenerateId();
 
 private:
@@ -77,9 +82,13 @@ private:
         Handle(AIS_Shape) ais;
 
         std::string kind;   // "Box" / "Line" / "Circle" / "Rectangle" / "Generic"
+        std::string type;   // 3D types 'Box'
 
         // Box params
         double dx = 0, dy = 0, dz = 0;
+
+        // MakeBox pars
+        double BoxX = 0, BoxY = 0, BoxZ = 0, BoxLen = 0, BoxWid, BoxHei;
 
         // Line params
         double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
