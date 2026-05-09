@@ -83,10 +83,10 @@ void Tools::Draw(History& history, Document& doc)
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0)); 
     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
     ImVec2 ToolsBtnSize(64, 64);
-    if (ImGui::ImageButton("FirstPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File1), ToolsBtnSize)) count++;
-    ImGui::SameLine();
-    if (ImGui::ImageButton("SecondPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File2), ToolsBtnSize)) count=0;
-    ImGui::SameLine();
+    //if (ImGui::ImageButton("FirstPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File1), ToolsBtnSize)) count++;
+   // ImGui::SameLine();
+   // if (ImGui::ImageButton("SecondPNGBtn", PNG_Reader.PNG_Read_ImGuiTex(File2), ToolsBtnSize)) count=0;
+   // ImGui::SameLine();
     if (ImGui::ImageButton("BoxPng", PNG_Reader.PNG_Read_ImGuiTex(File3), ToolsBtnSize)) DrawBoxGui = 1;
     ImGui::SameLine();
     if (ImGui::ImageButton("CyllPng", PNG_Reader.PNG_Read_ImGuiTex(File4), ToolsBtnSize)) DrawCyllGui = 1;
@@ -96,7 +96,7 @@ void Tools::Draw(History& history, Document& doc)
     if (ImGui::ImageButton("Trash", PNG_Reader.PNG_Read_ImGuiTex(File6), ToolsBtnSize)) doc.TempDell();
     ImGui::PopStyleColor(3);
     ImGui::PopStyleVar();
-    ImGui::Text("%d", count);
+    //ImGui::Text("%d", count);
     if (DrawBoxGui)
     {
         BoxGui.Draw(history, doc);

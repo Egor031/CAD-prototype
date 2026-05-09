@@ -10,6 +10,7 @@
 #include "CmdAddCircle.h"
 #include "CmdAddRectangle.h"
 #include "CreateBox.h"
+#include "CreateCyll.h"
 
 #include <cctype>
 #include <regex>
@@ -279,6 +280,35 @@ namespace
         return true;
     }
 
+    static bool TryParseDrawCyll(const std::string& obj,
+        std::unique_ptr<ICommand>& outCmd,
+        std::string& error)
+    {
+        double nx = 0, ny = 0, nz = 0, l = 0, w = 0, h = 0, axx = 0, axy = 0, axz = 0;
+
+        if (!TryGetNumber(obj, "dx", nx) ||
+            !TryGetNumber(obj, "dy", ny) ||
+            !TryGetNumber(obj, "dz", nz) ||
+            !TryGetNumber(obj, "Dia", l) ||
+            !TryGetNumber(obj, "Hei", h) ||
+            !TryGetNumber(obj, "AxX", axx) ||
+            !TryGetNumber(obj, "AxY", axy) ||
+            !TryGetNumber(obj, "AxZ", axz))
+        {
+            error = "DrawBox requires numeric fields dx, dy, dz, Dia, Hei, AxX, AxY, AxZ.";
+            return false;
+        }
+
+        if (l == 0 || h == 0 || (axx==0 && axy==0 && axz==0))
+        {
+            error = "DrawBox requires non-zero axis, diametr and height.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CreateCyll>(nx, ny, nz, l, h, axx, axy ,axz);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -290,6 +320,9 @@ namespace
 
         if (type == "DrawBox")
             return TryParseDrawBox(obj, outCmd, error);
+
+        if (type == "DrawCyll")
+            return TryParseDrawCyll(obj, outCmd, error);
 
         if (type == "AddBox")
             return TryParseAddBox(obj, outCmd, error);
