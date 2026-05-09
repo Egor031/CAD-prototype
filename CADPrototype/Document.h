@@ -10,6 +10,24 @@
 
 using EntityId = uint64_t;
 
+//Структура для запоминания параметров объектов после их удаления
+struct ShapeMeta
+{
+    std::string kind;
+
+    // Box params
+    double dx = 0, dy = 0, dz = 0;
+
+    // Line params
+    double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+    // Circle params
+    double cx = 0, cy = 0, r = 0;
+
+    // Rectangle params
+    double rectX = 0, rectY = 0, rectW = 0, rectH = 0;
+};
+
 class Document
 {
 public:
@@ -55,11 +73,11 @@ public:
     bool TryGetTopoShape(EntityId id, TopoDS_Shape& outShape) const;
 
     // Для корректного Undo после удаления (восстановить метаданные)
-    bool TryGetMeta(EntityId id, std::string& kind, double& dx, double& dy, double& dz) const;
+    bool TryGetMeta(EntityId id, ShapeMeta& outMeta) const;
+
     bool AddShapeWithIdAndMeta(EntityId id,
         const TopoDS_Shape& shape,
-        const std::string& kind,
-        double dx, double dy, double dz);
+        const ShapeMeta& meta);
 
     // Для UI/отладки
     std::vector<EntityId> ListIds() const;
