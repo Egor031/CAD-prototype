@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <AIS_InteractiveContext.hxx>
@@ -16,4 +17,27 @@ public:
 
 private:
     bool myInitialized = false;
+};
+*/
+
+#pragma once
+
+#include "ICommand.h"
+#include "Document.h"
+#include <memory>
+
+class CreateCyll : public ICommand
+{
+public:
+    CreateCyll(double nullx, double nully, double nullz, double dia, double hei, double axx, double axy, double axz);
+
+    void Apply(Document& doc) override;
+    void Undo(Document& doc) override;
+
+    std::string Name() const override { return "CreateCyll"; }
+    std::string ToJson() const override;
+
+public:
+    double myDx, myDy, myDz, Diametr, Height, AxisX, AxisY, AxisZ;
+    EntityId myCreatedId = 0;
 };

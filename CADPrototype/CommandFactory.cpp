@@ -9,6 +9,7 @@
 #include "CmdAddLine.h"
 #include "CmdAddCircle.h"
 #include "CmdAddRectangle.h"
+#include "CreateBox.h"
 
 #include <cctype>
 #include <regex>
@@ -251,6 +252,33 @@ namespace
         return true;
     }
 
+    static bool TryParseDrawBox(const std::string& obj,
+        std::unique_ptr<ICommand>& outCmd,
+        std::string& error)
+    {
+        double nx = 0, ny = 0, nz=0 , l=0, w = 0, h = 0;
+
+        if (!TryGetNumber(obj, "dx", nx) ||
+            !TryGetNumber(obj, "dy", ny) ||
+            !TryGetNumber(obj, "dz", nz) ||
+            !TryGetNumber(obj, "Len", l) ||
+            !TryGetNumber(obj, "Wid", w) ||
+            !TryGetNumber(obj, "Hei", h))
+        {
+            error = "DrawBox requires numeric fields dx, dy, dz, Len, Wid, Hei.";
+            return false;
+        }
+
+        if (l == 0 || w == 0 || h == 0)
+        {
+            error = "DrawBox requires non-zero lenght, width and height.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CreateBox>(nx, ny,nz,l, w, h);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -259,6 +287,9 @@ namespace
             error = "Command object has no \"type\" field.";
             return false;
         }
+
+        if (type == "DrawBox")
+            return TryParseDrawBox(obj, outCmd, error);
 
         if (type == "AddBox")
             return TryParseAddBox(obj, outCmd, error);

@@ -58,20 +58,42 @@ CreateBox::CreateBox(double nullx, double nully, double nullz, double len, doubl
 {
 }
 
+
 void CreateBox::Apply(Document& doc)
 {
-    int id = doc.GenerateId();
-    double t1 = 10, t2 = 10, t3 = 10;
-    gp_Pnt pq(t1,t2,t3);
-    gp_Pnt p1(myDx, myDy, myDz);
-    gp_Pnt p2(myDx + Lenght, myDy + Width, myDz + Height);
+    if (myCreatedId != 0)
+    {
+        int id = myCreatedId;
 
-    BRepPrimAPI_MakeBox makeBox(p1, p2);
-    TopoDS_Shape myBox = makeBox.Shape();
+        gp_Pnt p1(myDx, myDy, myDz);
+        gp_Pnt p2(myDx + Lenght, myDy + Width, myDz + Height);
 
-    double input[6] = { myDx, myDy, myDz, Lenght, Width, Height };
+        BRepPrimAPI_MakeBox makeBox(p1, p2);
+        TopoDS_Shape myBox = makeBox.Shape();
 
-    doc.DrawShape("Box", myBox, id, input);
+        double input[6] = { myDx, myDy, myDz, Lenght, Width, Height };
+
+        myCreatedId = id;
+
+        doc.DrawShape("Box", myBox, id, input);
+
+    }
+    else
+    {
+        int id = doc.GenerateId();
+
+        gp_Pnt p1(myDx, myDy, myDz);
+        gp_Pnt p2(myDx + Lenght, myDy + Width, myDz + Height);
+
+        BRepPrimAPI_MakeBox makeBox(p1, p2);
+        TopoDS_Shape myBox = makeBox.Shape();
+
+        double input[6] = { myDx, myDy, myDz, Lenght, Width, Height };
+
+        myCreatedId = id;
+
+        doc.DrawShape("Box", myBox, id, input);
+    }
 }
 
 void CreateBox::Undo(Document& doc)
@@ -87,20 +109,14 @@ std::string CreateBox::ToJson() const
     if (myCreatedId != 0)
     {
         ss << "{"
-            << "\"type\":\"AddBoxWithId\","
+            << "\"type\":\"DrawBox\","
             << "\"id\":" << myCreatedId << ","
             << "\"dx\":" << myDx << ","
             << "\"dy\":" << myDy << ","
-            << "\"dz\":" << myDz
-            << "}";
-    }
-    else
-    {
-        ss << "{"
-            << "\"type\":\"AddBox\","
-            << "\"dx\":" << myDx << ","
-            << "\"dy\":" << myDy << ","
-            << "\"dz\":" << myDz
+            << "\"dz\":" << myDz << ","
+            << "\"Len\":" << Lenght << ","
+            << "\"Wid\":" << Width << ","
+            << "\"Hei\":" << Height << ","
             << "}";
     }
 

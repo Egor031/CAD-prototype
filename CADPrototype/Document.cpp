@@ -48,17 +48,27 @@ EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape, int id
     e.id = id;
     e.ais = ais;
     e.kind = kind;
-
-    if (kind == "Box")
+    std::string typeBox = "Box";
+    if (e.kind == "Box")
     {
-        e.BoxX == input[1];
-        e.BoxY == input[2];
-        e.BoxZ == input[3];
-        e.BoxLen == input[4];
-        e.BoxWid == input[5];
-        e.BoxHei == input[6];
+        e.BoxX = input[0];
+        e.BoxY = input[1];
+        e.BoxZ = input[2];
+        e.BoxLen = input[3];
+        e.BoxWid = input[4];
+        e.BoxHei = input[5];
     }
-
+    if (e.kind == "Cyll")
+    {
+        e.CylX = input[0];
+        e.CylY = input[1];
+        e.CylZ = input[2];
+        e.Dia = input[3];
+        e.CylHei = input[4];
+        e.AxX = input[5];
+        e.AxY = input[6];
+        e.AxZ = input[7];
+    }
 
 
     myShapes.push_back(e);
@@ -184,7 +194,7 @@ EntityId Document::AddBox(double dx, double dy, double dz)
     ShapeEntry e;
     e.id = id;
     e.ais = ais;
-    e.kind = "Box";
+    e.kind = "AddBox";
     e.dx = dx; e.dy = dy; e.dz = dz;
     myShapes.push_back(e);
 
@@ -204,7 +214,7 @@ bool Document::AddBoxWithId(EntityId id, double dx, double dy, double dz)
     ShapeEntry e;
     e.id = id;
     e.ais = ais;
-    e.kind = "Box";
+    e.kind = "AddBox";
     e.dx = dx; e.dy = dy; e.dz = dz;
     myShapes.push_back(e);
 
@@ -224,11 +234,31 @@ std::string Document::ExportStateJson() const
         ss << "  {\"id\":" << (unsigned long long)e.id
             << ",\"kind\":\"" << e.kind << "\"";
 
-        if (e.kind == "Box")
+        if (e.kind == "AddBox")
         {
             ss << ",\"dx\":" << e.dx
                 << ",\"dy\":" << e.dy
                 << ",\"dz\":" << e.dz;
+        }
+        else if (e.kind == "Box")
+        {
+            ss << ",\"NullX\":" << e.BoxX
+                << ",\"NullY\":" << e.BoxY
+                << ",\"NullZ\":" << e.BoxZ
+                << ",\"Len\":" << e.BoxLen
+                << ",\"Wid\":" << e.BoxWid
+                << ",\"Hei\":" << e.BoxHei;
+        }
+        else if (e.kind == "Cyll")
+        {
+            ss << ",\"NullX\":" << e.CylX
+                << ",\"NullY\":" << e.CylY
+                << ",\"NullZ\":" << e.CylZ
+                << ",\"Dia\":" << e.Dia
+                << ",\"Hei\":" << e.CylHei
+                << ",\"AxX\":" << e.AxX
+                << ",\"AxY\":" << e.AxY
+                << ",\"AxZ\":" << e.AxZ;
         }
         else if (e.kind == "Line")
         {

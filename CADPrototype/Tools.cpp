@@ -104,7 +104,7 @@ void Tools::Draw(History& history, Document& doc)
     }
     if (DrawCyllGui)
     {
-        CyllGui.Draw(doc);
+        CyllGui.Draw(history, doc);
         if (!CyllGui.DoDraw()) DrawCyllGui = 0;
     }
     if (DrawFuseGui)

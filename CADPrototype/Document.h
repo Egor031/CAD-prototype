@@ -90,6 +90,8 @@ private:
         // MakeBox pars
         double BoxX = 0, BoxY = 0, BoxZ = 0, BoxLen = 0, BoxWid, BoxHei;
 
+        double CylX = 0, CylY = 0, CylZ = 0, Dia = 0, CylHei = 0, AxX, AxY, AxZ;
+
         // Line params
         double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CreateBox.h"
+#include "History.h"
 
 #include <memory>
 

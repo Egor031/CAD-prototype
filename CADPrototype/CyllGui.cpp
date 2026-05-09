@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "CreateCyll.h"
+#include "history.h"
 
 #include <GLFW/glfw3.h>
 
@@ -16,14 +17,14 @@
 #include <string>
 
 
-static char Input1[100] = "Center point X",
-Input2[100] = "Center point Y",
-Input3[100] = "Center point Z",
-Input4[100] = "Diametr",
-Input5[100] = "Height",
-Input6[100] = "Axis multiply X",
-Input7[100] = "Axis multiply Y",
-Input8[100] = "Axis multiply Z";
+static char Input1[100] = "0",
+Input2[100] = "0",
+Input3[100] = "0",
+Input4[100] = "10",
+Input5[100] = "20",
+Input6[100] = "0",
+Input7[100] = "0",
+Input8[100] = "1";
 
 void CyllGui::Init(GLFWwindow* window)
 {
@@ -70,7 +71,7 @@ void CyllGui::BeginFrame()
 
 static bool Flag1 = 1;
 
-void CyllGui::Draw(Document& doc)
+void CyllGui::Draw(History& history, Document& doc)
 {
     Flag1 = 1;
     ImGui::Begin("Cyllinder");
@@ -82,7 +83,20 @@ void CyllGui::Draw(Document& doc)
     ImGui::InputText("Axis multiply X", Input6, 50);
     ImGui::InputText("Axis multiply Y", Input7, 50);
     ImGui::InputText("Axis multiply Z", Input8, 50);
-    if (ImGui::Button("CreateCyll")) {CreateCyll.DrawCyll(Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8, doc);Flag1 = 0;}
+    if (ImGui::Button("CreateCyll")) {
+        
+        double intInX = std::stoi(Input1);
+        double  intInY = std::stoi(Input2);
+        double  intInZ = std::stoi(Input3);
+        double  intDiam = std::stoi(Input4);
+        double  intHei = std::stoi(Input5);
+        double  intaxelX = std::stoi(Input6);
+        double  intaxelY = std::stoi(Input7);
+        double  intaxelZ = std::stoi(Input8);
+            history.Apply(std::make_unique <CreateCyll>(intInX, intInY, intInZ, intDiam, intHei, intaxelX,intaxelY,intaxelZ), doc);
+        Flag1 = 0;
+    
+    ;Flag1 = 0;}
     ImGui::SameLine();
     if (ImGui::Button("Cancel")) Flag1 = 0;
     ImGui::End();

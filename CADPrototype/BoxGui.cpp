@@ -20,12 +20,12 @@
 #include <string>
 
 
-static char Input1[100] = "Start X",
-Input2[100] = "Start Y",
-Input3[100] = "Start Z",
-Input4[100] = "Lenght",
-Input5[100] = "Width",
-Input6[100] = "Height";
+static char Input1[100] = "50",
+Input2[100] = "50",
+Input3[100] = "50",
+Input4[100] = "50",
+Input5[100] = "50",
+Input6[100] = "50";
 
 void BoxGui::Init(GLFWwindow* window)
 {

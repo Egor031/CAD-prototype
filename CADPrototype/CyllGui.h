@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CreateCyll.h"
+#include "History.h"
 
 struct GLFWwindow;
 
@@ -14,12 +15,12 @@ public:
     void Shutdown();
 
     void BeginFrame();
-    void Draw(Document& doc);  
+    void Draw(History& history, Document& doc);
     bool DoDraw();
     void EndFrame();
 
 private:
     bool myInitialized = false;
-    CreateCyll CreateCyll;
+   // CreateCyll CreateCyll;
 };
 
