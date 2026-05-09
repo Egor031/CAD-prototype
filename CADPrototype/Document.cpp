@@ -240,37 +240,77 @@ bool Document::UpdateBox(EntityId id, double dx, double dy, double dz)
     return false;
 }
 
-bool Document::TryGetMeta(EntityId id, std::string& kind, double& dx, double& dy, double& dz) const
+bool Document::TryGetMeta(EntityId id, ShapeMeta& outMeta) const
 {
     for (const auto& e : myShapes)
     {
         if (e.id == id)
         {
-            kind = e.kind;
-            dx = e.dx; dy = e.dy; dz = e.dz;
+            outMeta.kind = e.kind;
+
+            outMeta.dx = e.dx;
+            outMeta.dy = e.dy;
+            outMeta.dz = e.dz;
+
+            outMeta.x1 = e.x1;
+            outMeta.y1 = e.y1;
+            outMeta.x2 = e.x2;
+            outMeta.y2 = e.y2;
+
+            outMeta.cx = e.cx;
+            outMeta.cy = e.cy;
+            outMeta.r = e.r;
+
+            outMeta.rectX = e.rectX;
+            outMeta.rectY = e.rectY;
+            outMeta.rectW = e.rectW;
+            outMeta.rectH = e.rectH;
+
             return true;
         }
     }
+
     return false;
 }
 
 bool Document::AddShapeWithIdAndMeta(EntityId id,
     const TopoDS_Shape& shape,
-    const std::string& kind,
-    double dx, double dy, double dz)
+    const ShapeMeta& meta)
 {
     for (const auto& s : myShapes)
         if (s.id == id)
             return false;
 
     Handle(AIS_Shape) ais = new AIS_Shape(shape);
-    myContext->Display(ais, AIS_Shaded, 0, Standard_True);
+
+    if (meta.kind == "Box")
+        myContext->Display(ais, AIS_Shaded, 0, Standard_True);
+    else
+        myContext->Display(ais, AIS_WireFrame, 0, Standard_True);
 
     ShapeEntry e;
     e.id = id;
     e.ais = ais;
-    e.kind = kind;
-    e.dx = dx; e.dy = dy; e.dz = dz;
+    e.kind = meta.kind;
+
+    e.dx = meta.dx;
+    e.dy = meta.dy;
+    e.dz = meta.dz;
+
+    e.x1 = meta.x1;
+    e.y1 = meta.y1;
+    e.x2 = meta.x2;
+    e.y2 = meta.y2;
+
+    e.cx = meta.cx;
+    e.cy = meta.cy;
+    e.r = meta.r;
+
+    e.rectX = meta.rectX;
+    e.rectY = meta.rectY;
+    e.rectW = meta.rectW;
+    e.rectH = meta.rectH;
+
     myShapes.push_back(e);
 
     if (id >= myNextId)

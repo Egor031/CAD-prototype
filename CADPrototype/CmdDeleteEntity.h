@@ -17,8 +17,7 @@ public:
     std::string Name() const override { return "DeleteEntity"; }
     std::string ToJson() const override;
 
-    std::string myBackupKind;
-    double myBackupDx = 0, myBackupDy = 0, myBackupDz = 0;
+    ShapeMeta myBackupMeta;
     bool myHasMeta = false;
 private:
     EntityId myId = 0;

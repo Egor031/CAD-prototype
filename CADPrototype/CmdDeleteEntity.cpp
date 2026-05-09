@@ -9,10 +9,11 @@ CmdDeleteEntity::CmdDeleteEntity(EntityId id)
 
 void CmdDeleteEntity::Apply(Document& doc)
 {
-    myHasBackup = doc.TryGetTopoShape(myId, myBackup);
+    if (!myHasBackup)
+        myHasBackup = doc.TryGetTopoShape(myId, myBackup);
 
-    // метаданные тоже сохраняем
-    myHasMeta = doc.TryGetMeta(myId, myBackupKind, myBackupDx, myBackupDy, myBackupDz);
+    if (!myHasMeta)
+        myHasMeta = doc.TryGetMeta(myId, myBackupMeta);
 
     doc.RemoveShape(myId);
 }
@@ -23,15 +24,11 @@ void CmdDeleteEntity::Undo(Document& doc)
         return;
 
     if (myHasMeta)
-    {
-        doc.AddShapeWithIdAndMeta(myId, myBackup, myBackupKind, myBackupDx, myBackupDy, myBackupDz);
-    }
+        doc.AddShapeWithIdAndMeta(myId, myBackup, myBackupMeta);
     else
-    {
-        // fallback
         doc.AddShapeWithId(myId, myBackup);
-    }
 }
+
 std::string CmdDeleteEntity::ToJson() const
 {
     std::ostringstream ss;
