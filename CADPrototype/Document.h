@@ -66,6 +66,8 @@ public:
 
     void TempDell();
 
+    void RemoveShapeWithoutJSON(EntityId id);
+
     bool RemoveShape(EntityId id);
     Handle(AIS_Shape) GetShape(EntityId id);
 
@@ -108,7 +110,15 @@ private:
         // MakeBox pars
         double BoxX = 0, BoxY = 0, BoxZ = 0, BoxLen = 0, BoxWid, BoxHei;
 
+        // MakeCyll pars
         double CylX = 0, CylY = 0, CylZ = 0, Dia = 0, CylHei = 0, AxX, AxY, AxZ;
+
+        // Make Fuse pars
+        double FuseID1, FuseID2;
+
+
+        // Make Cut pars
+        double CutID1, CutID2;
 
         // Line params
         double x1 = 0, y1 = 0, x2 = 0, y2 = 0;

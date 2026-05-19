@@ -63,11 +63,17 @@ void FuseGui::BeginFrame()
 static bool Flag1 = 1;
 static bool SelectedF = 0;
 static bool SelectedS = 0;
-static TopoDS_Shape FOBJ;
-static TopoDS_Shape SOBJ;
 
-void FuseGui::Draw(Document& doc)
+static bool initSellF = 0;
+static bool initSellS = 0;
+
+static int id1 = 0, id2 = 0;
+
+void FuseGui::Draw(History& history, Document& doc)
 {
+
+    
+
     Flag1 = 1;
     ImGui::Begin("Fuse");
 
@@ -88,12 +94,19 @@ void FuseGui::Draw(Document& doc)
 
     if (ImGui::Button("Select First Object"))
     {
+        if (SelectedS == 1) id2 = doc.GetSelectedIDShape();
         SelectedF = 1; SelectedS = 0;
        // SOBJ = doc.GetSelectedTPDSShape();
     }
 
    ImGui::PopStyleColor(3);
     
+
+   //
+   //
+   //
+
+
     if (!SelectedS)
     {
         ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.6f, 0.8f, 0.5f));
@@ -110,6 +123,8 @@ void FuseGui::Draw(Document& doc)
     
     if (ImGui::Button("Select Second Object"))
     {
+        if (SelectedF == 1) 
+            id1 = doc.GetSelectedIDShape();
         SelectedF = 0; SelectedS = 1;
        // FOBJ = doc.GetSelectedTPDSShape();
     }
@@ -118,9 +133,15 @@ void FuseGui::Draw(Document& doc)
     ImGui::PopStyleColor(3);
     
 
-    if (ImGui::Button("Fuse")) { Flag1 = 0; MakeFuse.DrawFuse(FOBJ, SOBJ, doc); }
+    if (ImGui::Button("Fuse")) { 
+        if (SelectedF == 1) id1 = doc.GetSelectedIDShape();
+        if (SelectedS == 1) id2 = doc.GetSelectedIDShape();
+        SelectedF = 0;SelectedS = 0;
+        Flag1 = 0; history.Apply(std::make_unique <CreateFuse>(id1, id2), doc); initSellF = 0;initSellS = 0;    }
     ImGui::SameLine();
-    if (ImGui::Button("Cancel")) Flag1 = 0;
+    if (ImGui::Button("Cancel")) {
+        Flag1 = 0; SelectedF = 0;SelectedS = 0;
+    }
     ImGui::End();
 
 }

@@ -11,6 +11,7 @@
 #include "CmdAddRectangle.h"
 #include "CreateBox.h"
 #include "CreateCyll.h"
+#include "Fuse.h"
 
 #include <cctype>
 #include <regex>
@@ -157,6 +158,7 @@ namespace
         outCmd = std::make_unique<CmdAddBox>(dx, dy, dz);
         return true;
     }
+
 
     static bool TryParseUpdateBox(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
@@ -309,6 +311,20 @@ namespace
         return true;
     }
 
+
+    static bool TryParseMakeFuse(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
+    {
+        double Fid1, Fid2;
+        if (!TryGetNumber(obj, "Fid1", Fid1) || !TryGetNumber(obj, "Fid2", Fid2))
+        {
+            error = "AddBox requires numeric fields Id 1 and Id 2.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CreateFuse>(Fid1, Fid2);
+        return true;
+    }
+
     static bool ParseOneCommand(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         std::string type;
@@ -320,6 +336,9 @@ namespace
 
         if (type == "DrawBox")
             return TryParseDrawBox(obj, outCmd, error);
+
+        if (type == "DrawFuse")
+            return TryParseMakeFuse(obj, outCmd, error);
 
         if (type == "DrawCyll")
             return TryParseDrawCyll(obj, outCmd, error);

@@ -109,7 +109,7 @@ void Tools::Draw(History& history, Document& doc)
     }
     if (DrawFuseGui)
     {
-        FuseGui.Draw(doc);
+        FuseGui.Draw(history, doc);
         if (!FuseGui.DoDraw()) DrawFuseGui = 0;
     }
     ImGui::End();

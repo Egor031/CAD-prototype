@@ -102,6 +102,19 @@ TopoDS_Shape Document::GetTopoDSfromID(int id)
 
 }
 
+void Document::RemoveShapeWithoutJSON(EntityId id)
+{
+    for (auto it = myShapes.begin(); it != myShapes.end(); ++it)
+    {
+        if (it->id == id)
+        {
+            myContext->Remove(it->ais, Standard_True);
+            
+        }
+    }
+
+}
+
 void Document::TempDell()
 {
     static int i = myShapes.size();
