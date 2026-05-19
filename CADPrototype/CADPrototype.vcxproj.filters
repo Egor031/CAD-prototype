@@ -141,6 +141,15 @@
     <ClCompile Include="PNG_Reader.cpp">
       <Filter>Исходные файлы\CAD</Filter>
     </ClCompile>
+    <ClCompile Include="CmdAddCircle.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdAddRectangle.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="LLMGui.cpp">
+      <Filter>Исходные файлы\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlfwOcctWindow.h">
@@ -250,6 +259,15 @@
     </ClInclude>
     <ClInclude Include="PNG_Reader.h">
       <Filter>Исходные файлы\CAD</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdAddCircle.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdAddRectangle.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="LLMGui.h">
+      <Filter>Исходные файлы\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

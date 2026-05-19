@@ -165,6 +165,7 @@
     <ClCompile Include="GuiApp.cpp" />
     <ClCompile Include="History.cpp" />
     <ClCompile Include="LlmAgent.cpp" />
+    <ClCompile Include="LLMGui.cpp" />
     <ClCompile Include="LmStudioClient.cpp" />
     <ClCompile Include="OcctInputController.cpp" />
     <ClCompile Include="PNG_Reader.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="ICommand.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LlmAgent.h" />
+    <ClInclude Include="LLMGui.h" />
     <ClInclude Include="LmStudioClient.h" />
     <ClInclude Include="OcctInputController.h" />
     <ClInclude Include="PNG_Reader.h" />

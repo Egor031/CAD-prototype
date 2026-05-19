@@ -65,6 +65,7 @@ static int count = 0;
 static bool DrawBoxGui=0;
 static bool DrawCyllGui = 0;
 static bool DrawFuseGui = 0;
+static bool DrawLLMGui = 0;
 
 void Tools::Draw(History& history, Document& doc)
 {
@@ -76,6 +77,7 @@ void Tools::Draw(History& history, Document& doc)
     std::string File4 = R"(D:\Learn\Diplom\PNG\CyllPng.png)";
     std::string File5 = R"(D:\Learn\Diplom\PNG\FusePng.png)";
     std::string File6 = R"(D:\Learn\Diplom\PNG\Trash.png)";
+    std::string File7 = R"(D:\Learn\Diplom\PNG\LLM.png)";
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -94,6 +96,8 @@ void Tools::Draw(History& history, Document& doc)
     if (ImGui::ImageButton("FusePng", PNG_Reader.PNG_Read_ImGuiTex(File5), ToolsBtnSize)) DrawFuseGui = 1;
     ImGui::SameLine();
     if (ImGui::ImageButton("Trash", PNG_Reader.PNG_Read_ImGuiTex(File6), ToolsBtnSize)) doc.TempDell();
+    ImGui::SameLine();
+    if (ImGui::ImageButton("LLM", PNG_Reader.PNG_Read_ImGuiTex(File7), ToolsBtnSize)) DrawLLMGui=1;
     ImGui::PopStyleColor(3);
     ImGui::PopStyleVar();
     //ImGui::Text("%d", count);
@@ -111,6 +115,11 @@ void Tools::Draw(History& history, Document& doc)
     {
         FuseGui.Draw(history, doc);
         if (!FuseGui.DoDraw()) DrawFuseGui = 0;
+    }
+    if (DrawLLMGui)
+    {
+        LLMGui.Draw(history, doc);
+        if (!LLMGui.DoDraw()) DrawLLMGui = 0;
     }
     ImGui::End();
     

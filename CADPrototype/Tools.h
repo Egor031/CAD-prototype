@@ -4,6 +4,7 @@
 #include "BoxGui.h"
 #include "CyllGui.h"
 #include "FuseGui.h"
+#include "LLMGui.h"
 #include "History.h"
 
 struct GLFWwindow;
@@ -27,4 +28,5 @@ private:
     BoxGui BoxGui;
     CyllGui CyllGui;
     FuseGui FuseGui;
+    LLMGui LLMGui;
 };
