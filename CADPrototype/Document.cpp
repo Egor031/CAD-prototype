@@ -69,7 +69,11 @@ EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape, int id
         e.AxY = input[6];
         e.AxZ = input[7];
     }
-
+    if (e.kind == "Fuse")
+    {
+        e.FuseID1 = input[0];
+        e.FuseID2 = input[1];
+    }
 
     myShapes.push_back(e);
 
@@ -105,14 +109,7 @@ TopoDS_Shape Document::GetTopoDSfromID(int id)
 void Document::RemoveShapeWithoutJSON(EntityId id)
 {
     for (auto it = myShapes.begin(); it != myShapes.end(); ++it)
-    {
-        if (it->id == id)
-        {
-            myContext->Remove(it->ais, Standard_True);
-            
-        }
-    }
-
+    {if (it->id == id)  {myContext->Remove(it->ais, Standard_True);}}
 }
 
 void Document::TempDell()
@@ -272,6 +269,11 @@ std::string Document::ExportStateJson() const
                 << ",\"AxX\":" << e.AxX
                 << ",\"AxY\":" << e.AxY
                 << ",\"AxZ\":" << e.AxZ;
+        }
+        else if (e.kind == "Fuse")
+        {
+            ss << ",\"Fid1\":" << e.FuseID1
+                << ",\"Fid2\":" << e.FuseID2;
         }
         else if (e.kind == "Line")
         {
