@@ -1,4 +1,4 @@
-#include "FuseGui.h"
+#include "CutGui.h"
 
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <AIS_Shape.hxx>
 
-#include "Fuse.h"
+#include "Cut.h"
 
 #include <GLFW/glfw3.h>
 
@@ -17,7 +17,7 @@
 #include <string>
 
 
-void FuseGui::Init(GLFWwindow* window)
+void CutGui::Init(GLFWwindow* window)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -41,7 +41,7 @@ void FuseGui::Init(GLFWwindow* window)
     ImGui_ImplOpenGL3_Init("#version 460");
 }
 
-void FuseGui::Shutdown()
+void CutGui::Shutdown()
 {
     if (!myInitialized) return;
 
@@ -52,7 +52,7 @@ void FuseGui::Shutdown()
     myInitialized = false;
 }
 
-void FuseGui::BeginFrame()
+void CutGui::BeginFrame()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -69,13 +69,13 @@ static bool initSellS = 0;
 
 static int id1 = 0, id2 = 0;
 
-void FuseGui::Draw(History& history, Document& doc)
+void CutGui::Draw(History& history, Document& doc)
 {
 
 
 
     Flag1 = 1;
-    ImGui::Begin("Fuse");
+    ImGui::Begin("Cut");
 
     if (!SelectedF)
     {
@@ -133,11 +133,11 @@ void FuseGui::Draw(History& history, Document& doc)
     ImGui::PopStyleColor(3);
 
 
-    if (ImGui::Button("Fuse")) {
+    if (ImGui::Button("Cut")) {
         if (SelectedF == 1) id1 = doc.GetSelectedIDShape();
         if (SelectedS == 1) id2 = doc.GetSelectedIDShape();
         SelectedF = 0;SelectedS = 0;
-        Flag1 = 0; history.Apply(std::make_unique <CreateFuse>(id1, id2), doc); initSellF = 0;initSellS = 0;
+        Flag1 = 0; history.Apply(std::make_unique <CreateCut>(id1, id2), doc); initSellF = 0;initSellS = 0;
     }
     ImGui::SameLine();
     if (ImGui::Button("Cancel")) {
@@ -147,12 +147,12 @@ void FuseGui::Draw(History& history, Document& doc)
 
 }
 
-bool FuseGui::DoDraw()
+bool CutGui::DoDraw()
 {
     return (Flag1);
 }
 
-void FuseGui::EndFrame()
+void CutGui::EndFrame()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

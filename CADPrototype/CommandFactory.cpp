@@ -293,26 +293,39 @@ namespace
             !TryGetNumber(obj, "dz", nz) ||
             !TryGetNumber(obj, "Dia", l) ||
             !TryGetNumber(obj, "Hei", h) ||
-            !TryGetNumber(obj, "AxX", axx) ||
-            !TryGetNumber(obj, "AxY", axy) ||
-            !TryGetNumber(obj, "AxZ", axz))
+            !TryGetNumber(obj, "Axx", axx) ||
+            !TryGetNumber(obj, "Axy", axy) ||
+            !TryGetNumber(obj, "Axz", axz))
         {
             error = "DrawBox requires numeric fields dx, dy, dz, Dia, Hei, AxX, AxY, AxZ.";
             return false;
         }
-
+        /*
         if (l == 0 || h == 0 || (axx==0 && axy==0 && axz==0))
         {
             error = "DrawBox requires non-zero axis, diametr and height.";
             return false;
         }
-
+        */
         outCmd = std::make_unique<CreateCyll>(nx, ny, nz, l, h, axx, axy ,axz);
         return true;
     }
 
 
     static bool TryParseMakeFuse(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
+    {
+        double Fid1, Fid2;
+        if (!TryGetNumber(obj, "Fid1", Fid1) || !TryGetNumber(obj, "Fid2", Fid2))
+        {
+            error = "AddBox requires numeric fields Id 1 and Id 2.";
+            return false;
+        }
+
+        outCmd = std::make_unique<CreateFuse>(Fid1, Fid2);
+        return true;
+    }
+
+    static bool TryParseMakeCut(const std::string& obj, std::unique_ptr<ICommand>& outCmd, std::string& error)
     {
         double Fid1, Fid2;
         if (!TryGetNumber(obj, "Fid1", Fid1) || !TryGetNumber(obj, "Fid2", Fid2))
@@ -339,6 +352,9 @@ namespace
 
         if (type == "DrawFuse")
             return TryParseMakeFuse(obj, outCmd, error);
+
+        if (type == "DrawCut")
+            return TryParseMakeCut(obj, outCmd, error);
 
         if (type == "DrawCyll")
             return TryParseDrawCyll(obj, outCmd, error);

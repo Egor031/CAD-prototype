@@ -74,6 +74,11 @@ EntityId Document::DrawShape(std::string kind, const TopoDS_Shape& shape, int id
         e.FuseID1 = input[0];
         e.FuseID2 = input[1];
     }
+    if (e.kind == "Cut")
+    {
+        e.CutID1 = input[0];
+        e.CutID2 = input[1];
+    }
 
     myShapes.push_back(e);
 
@@ -274,6 +279,11 @@ std::string Document::ExportStateJson() const
         {
             ss << ",\"Fid1\":" << e.FuseID1
                 << ",\"Fid2\":" << e.FuseID2;
+        }
+        else if (e.kind == "Cut")
+        {
+            ss << ",\"Cid1\":" << e.CutID1
+                << ",\"Cid2\":" << e.CutID2;
         }
         else if (e.kind == "Line")
         {

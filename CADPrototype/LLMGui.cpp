@@ -63,7 +63,7 @@ void LLMGui::BeginFrame()
 
 
 
-char input[100] = "0";
+static char input[200] = "Build two cyclinder with one axis and fuse them";
 
 
 
@@ -96,19 +96,6 @@ void LLMGui::Draw(History& history, Document& doc)
             static std::string myPrompt(input);
             const std::string state = doc.ExportStateJson();
 
-            /*
-            
-            
-            [
-  {"type":"DrawBox","id":1,"dx":50,"dy":50,"dz":50,"Len":50,"Wid":50,"Hei":50,},
-  {"type":"DrawCyll","id":2,"dx":0,"dy":0,"dz":0,"Dia":10,"Hei":20,"AxX":0,"AxY":0,"AxZ":1,},
-  {"type":"DrawFuse","id":3,"Fid1":1,"Fid2":2,}
-]
-            * 
-            * 
-            * 
-            *
-            */
 
             std::string systemPrompt =
                 "You are an assistant for creating 3D solid and simple CAD geometry.\n"
@@ -181,14 +168,17 @@ void LLMGui::Draw(History& history, Document& doc)
                 myHistoryJson = history.ExportJson();
                 myStateJson = doc.ExportStateJson();
             }
-
+            userPrompt.clear();
+            myPrompt.clear();
             ///
             ///
             /// 
+            
         }
 
     }
-
+    ImGui::SameLine();
+    if (ImGui::Button("Cancel")) Flag1 = 0;
 
     ImGui::End();
 

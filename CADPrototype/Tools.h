@@ -4,6 +4,7 @@
 #include "BoxGui.h"
 #include "CyllGui.h"
 #include "FuseGui.h"
+#include "CutGui.h"
 #include "LLMGui.h"
 #include "History.h"
 
@@ -21,6 +22,7 @@ public:
     void BeginFrame();
     void Draw(History& history, Document& doc);
     void EndFrame();
+    void IniPNG();
 
 private:
     bool myInitialized = false;
@@ -28,5 +30,6 @@ private:
     BoxGui BoxGui;
     CyllGui CyllGui;
     FuseGui FuseGui;
+    CutGui CutGui;
     LLMGui LLMGui;
 };

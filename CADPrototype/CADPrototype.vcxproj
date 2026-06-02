@@ -156,6 +156,8 @@
     <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="CreateBox.cpp" />
     <ClCompile Include="CreateCyll.cpp" />
+    <ClCompile Include="Cut.cpp" />
+    <ClCompile Include="CutGUI.cpp" />
     <ClCompile Include="CyllGui.cpp" />
     <ClCompile Include="Document.cpp" />
     <ClCompile Include="Fuse.cpp" />
@@ -193,6 +195,8 @@
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="CreateBox.h" />
     <ClInclude Include="CreateCyll.h" />
+    <ClInclude Include="Cut.h" />
+    <ClInclude Include="CutGUI.h" />
     <ClInclude Include="CyllGui.h" />
     <ClInclude Include="Document.h" />
     <ClInclude Include="Fuse.h" />

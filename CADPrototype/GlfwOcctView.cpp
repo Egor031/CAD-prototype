@@ -139,6 +139,7 @@ void GlfwOcctView::initViewCube()
 
 void GlfwOcctView::mainloop()
 {
+    myTools.IniPNG();
     while (!glfwWindowShouldClose(myOcctWindow->getGlfwWindow()))
     {
         glfwPollEvents();
